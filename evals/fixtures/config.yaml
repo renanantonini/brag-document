@@ -1,0 +1,50 @@
+# Fictional config for evals. Relative paths resolve from this file's folder.
+# Copy the whole fixtures folder per run and point the agent at the copy's config.
+version: 1
+language: pt-BR
+user_level: beginner
+bundle_path: bundle
+last_check_in: 2026-09-30
+inbox_path: inbox
+
+identity:
+  name: Ana Souza
+  emails: [ana@example.com]
+  handles:
+    gitea: ana
+    jira: ana.souza
+
+review_day: friday
+review_time: "16:00"
+timezone: America/Sao_Paulo
+reminders:
+  calendar_event: false
+  scheduled_collection: false
+
+sources:
+  code:
+    enabled: true
+    repos: []
+    remote_cli: none
+    fixture: sources/code.txt
+  tasks:
+    enabled: true
+    tool: jira
+    fixture: sources/tasks.json
+  calendar:
+    enabled: true
+    fixture: sources/calendar.json
+  email:
+    enabled: true
+    fixture: sources/email.json
+  transcripts:
+    enabled: true
+    tool: granola
+    fixture: sources/transcripts.md
+
+tags: [projeto, incidente, colaboracao, mentoria, design-docs, construcao-empresa, aprendizado, fora-do-trabalho, lideranca]
+
+notion:
+  enabled: false
+  database: null
+  anonymize_names: ask

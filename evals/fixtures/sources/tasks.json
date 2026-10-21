@@ -1,0 +1,38 @@
+[
+  {
+    "key": "PAY-301",
+    "type": "Story",
+    "summary": "Chaves de idempotência na criação de pagamentos",
+    "status": "Done",
+    "resolved": "2026-10-03",
+    "assignee": "ana.souza",
+    "last_comment": "Em produção. Cobranças duplicadas caíram de ~30/semana para 0 na primeira semana."
+  },
+  {
+    "key": "INC-97",
+    "type": "Incident",
+    "summary": "Tempestade de retries no timeout do provedor de pagamentos",
+    "status": "Done",
+    "resolved": "2026-10-08",
+    "assignee": "ana.souza",
+    "last_comment": "Backoff exponencial com jitter aplicado. Sem recorrência."
+  },
+  {
+    "key": "PAY-305",
+    "type": "Sub-task",
+    "summary": "Testes de idempotência",
+    "status": "Done",
+    "resolved": "2026-10-02",
+    "assignee": "ana.souza",
+    "parent": "PAY-301"
+  },
+  {
+    "key": "FIN-44",
+    "type": "Story",
+    "summary": "Exportar liquidação mensal em CSV para o financeiro",
+    "status": "Done",
+    "resolved": "2026-10-16",
+    "assignee": "ana.souza",
+    "last_comment": "Financeiro confirmou que substitui a planilha manual que levava 1 dia por mês."
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "name": "brag-document",
+  "version": "0.1.0",
+  "description": "Keep a private brag document: a friendly 15-minute weekly check-in that turns your code, tasks, calendar, email and meeting transcripts into a log of accomplishments and impact.",
+  "author": {
+    "name": "renanantonini",
+    "url": "https://github.com/renanantonini"
+  },
+  "homepage": "https://github.com/renanantonini/brag-document",
+  "repository": "https://github.com/renanantonini/brag-document",
+  "license": "MIT",
+  "keywords": ["brag-document", "career", "performance-review", "okf", "obsidian", "notion"]
+}

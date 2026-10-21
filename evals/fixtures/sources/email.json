@@ -1,0 +1,37 @@
+[
+  {
+    "from": "Carla Mendes <carla@example.com>",
+    "to": "ana@example.com",
+    "date": "2026-10-17",
+    "subject": "Obrigada pelo CSV de liquidação!",
+    "body": "Ana, o export novo economizou um dia inteiro do fechamento. A diretoria financeira pediu para te agradecer. Os valores de outubro batem com o banco: R$ 1.284.330,12."
+  },
+  {
+    "from": "newsletter@techweekly.example",
+    "to": "ana@example.com",
+    "date": "2026-10-12",
+    "subject": "This week in backend",
+    "body": "..."
+  },
+  {
+    "from": "rh@example.com",
+    "to": "ana@example.com",
+    "date": "2026-10-15",
+    "subject": "CONFIDENCIAL: revisão salarial 2026",
+    "body": "Prezada Ana, seu reajuste..."
+  },
+  {
+    "from": "ana@example.com",
+    "to": "eng-all@example.com",
+    "date": "2026-10-03",
+    "subject": "No ar: idempotência na criação de pagamentos",
+    "body": "Pessoal, a partir de hoje toda criação de pagamento exige chave de idempotência..."
+  },
+  {
+    "from": "jira@example.atlassian.net",
+    "to": "ana@example.com",
+    "date": "2026-10-08",
+    "subject": "[JIRA] INC-97 resolved",
+    "body": "automated"
+  }
+]

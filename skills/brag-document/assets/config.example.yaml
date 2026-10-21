@@ -1,0 +1,46 @@
+# brag-document config. Lives at ~/.brag-document/config.yaml.
+# Machine-specific settings only; the bundle itself stays portable.
+
+version: 1
+language: pt-BR                  # conversation and entries
+user_level: beginner             # beginner = short usage tips; experienced = none
+bundle_path: ~/brag-document     # the OKF bundle folder
+last_check_in: null              # YYYY-MM-DD, set when a weekly check-in ends
+inbox_path: ~/.brag-document/inbox   # staging for scheduled collection and early stops
+
+identity:                        # used to find the person's own work in sources
+  name: Ana Souza
+  emails: [ana@example.com]      # git author emails and mailbox addresses
+  handles:                       # usernames per service, when they differ
+    github: anasouza
+    jira: ana.souza
+
+review_day: friday
+review_time: "16:00"
+timezone: America/Sao_Paulo
+reminders:
+  calendar_event: false          # true once the recurring event was created
+  scheduled_collection: false    # true once a scheduled task was set up
+
+sources:                         # see references/source-recipes.md
+  code:
+    enabled: true
+    repos: [~/code/payments-api] # local folders for git log
+    remote_cli: gh               # gh, glab, tea, or none
+  tasks:
+    enabled: true
+    tool: jira                   # jira, linear, github-issues, ...
+  calendar:
+    enabled: true
+  email:
+    enabled: false
+  transcripts:
+    enabled: false
+    tool: null                   # granola, fireflies, otter, teams, meet, ...
+
+tags: [projeto, incidente, colaboracao, mentoria, design-docs, construcao-empresa, aprendizado, fora-do-trabalho]
+
+notion:
+  enabled: false
+  database: null                 # Notion database URL or id
+  anonymize_names: ask           # ask, always, never

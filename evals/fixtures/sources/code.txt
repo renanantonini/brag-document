@@ -1,0 +1,15 @@
+# Fictional output of: git log --author=ana@example.com --no-merges --date=short (2026-10-01..2026-10-21)
+# plus PRs from the Gitea instance.
+
+a1b2c3d 2026-10-02 feat(checkout): idempotency key on payment create
+b2c3d4e 2026-10-02 test(checkout): idempotency scenarios
+c3d4e5f 2026-10-03 chore: bump lodash 4.17.21 -> 4.17.22
+d4e5f6a 2026-10-08 fix(payments): retry storm on provider timeout (INC-97)
+e5f6a7b 2026-10-09 docs: fix typo in README
+f6a7b8c 2026-10-15 feat(reports): export monthly settlement as CSV
+a7b8c9d 2026-10-16 style: run prettier
+
+PR #341 (merged 2026-10-03) "Idempotency keys for payment creation" - author ana
+PR #352 (merged 2026-10-16) "Monthly settlement CSV export" - author ana
+PR #349 (reviewed by ana, 2026-10-10) "Refactor fraud rules engine" - 14 review comments by ana, one flagged a rule that let duplicate refunds through
+PR #355 (reviewed by ana, 2026-10-20) "Bump CI image" - approved without comments

@@ -1,0 +1,9 @@
+[
+  {"title": "Daily pagamentos", "date": "2026-10-01..2026-10-21", "recurring": true, "organizer": "lider@example.com", "attendees": 8},
+  {"title": "1:1 Ana / Pedro", "dates": ["2026-10-02", "2026-10-09", "2026-10-16"], "organizer": "ana@example.com", "attendees": 2, "note": "Pedro is the junior dev Ana onboarded"},
+  {"title": "Tech talk: idempotência na prática", "date": "2026-10-10", "organizer": "ana@example.com", "presenter": "ana@example.com", "attendees": 35},
+  {"title": "Entrevista técnica - vaga backend pleno", "date": "2026-10-14", "organizer": "rh@example.com", "attendees": 3},
+  {"title": "All-hands outubro", "date": "2026-10-17", "organizer": "ceo@example.com", "attendees": 220},
+  {"title": "Consulta médica", "date": "2026-10-07", "private": true},
+  {"title": "Sync roadmap Q4", "date": "2026-10-20", "organizer": "pm@example.com", "attendees": 6, "declined": true}
+]

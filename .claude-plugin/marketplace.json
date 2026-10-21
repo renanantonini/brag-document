@@ -1,0 +1,14 @@
+{
+  "name": "brag-document",
+  "owner": {
+    "name": "renanantonini",
+    "url": "https://github.com/renanantonini"
+  },
+  "plugins": [
+    {
+      "name": "brag-document",
+      "source": "./",
+      "description": "Keep a private brag document with a friendly 15-minute weekly check-in."
+    }
+  ]
+}
