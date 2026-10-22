@@ -1,6 +1,10 @@
 # brag-document
 
-An Agent Skill that helps you keep a **brag document**: a private, living log of what you did at work and why it mattered. Based on Julia Evans' [Get your work recognized: write a brag document](https://jvns.ca/blog/brag-documents/) and Elton Minetto's [Brag document](https://eltonminetto.dev/post/2022-04-14-brag-document/).
+An Agent Skill that helps you keep a **brag document**: a private, living log of what you did at work and why it mattered.
+
+## Credits
+
+This skill started from Felipe Adamoli's class *Brag Document: registrando entregas e combatendo síndrome do impostor* at [Tech Leads Club](https://www.techleads.club/). The class showed how a brag document fights faulty memory, recency bias and impostor syndrome, and how AI can gather your accomplishments from the tools you already use. It also builds on Julia Evans' [Get your work recognized: write a brag document](https://jvns.ca/blog/brag-documents/) and Elton Minetto's [Brag document](https://eltonminetto.dev/post/2022-04-14-brag-document/).
 
 *Português:* uma skill para manter seu brag document com uma conversa semanal de ~15 minutos. O agente conversa no seu idioma.
 
