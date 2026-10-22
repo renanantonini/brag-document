@@ -10,8 +10,15 @@ An Agent Skill that helps you keep a **brag document**: a private, living log of
 - **Edit by conversation.** "Add the latency number to the API migration entry." The agent shows the change before writing it.
 - **Recall.** "Have I done something like this before?" You get facts from your own log, not pep talk.
 - **Period summary** for performance reviews and promotion cases, by theme or by your company's criteria.
-- **Interactive view.** A single local HTML page with a timeline, highlights with your impact numbers, filters, a links graph and a presentation mode. It opens in your browser and makes no network requests. Prefer plain text? Ask for the Markdown view instead. See [examples/view-example.html](examples/view-example.html), built from fictional data.
+- **Interactive view.** A single local HTML page with a timeline, highlights with your impact numbers, filters, a links graph and a presentation mode. It opens in your browser and makes no network requests. Prefer plain text? Ask for the Markdown view instead.
 - **One-way sync to Notion**, as a filterable showcase.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/view-preview-dark.png">
+  <img src="docs/view-preview-light.png" alt="Interactive view of a fictional semester: headline 'Seu semestre em conquistas', four highlight cards with impact numbers, counters and the filterable timeline" width="760">
+</picture>
+
+*The interactive view, built from fictional data. **[Open the live example](https://renanantonini.github.io/brag-document/examples/view-example.html)** to try the filters, the links graph and the presentation mode, or download [examples/view-example.html](examples/view-example.html) and open it locally.*
 
 ## Privacy
 
