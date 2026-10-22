@@ -10,3 +10,5 @@ sources:
   - resource: https://example.atlassian.net/browse/INC-88
     title: INC-88 Fila de pagamentos parada
 ---
+
+O alerta novo seguiu o mesmo padrão de monitoramento criado na [migração do banco de pedidos](../04/2026-04-15-migracao-banco-pedidos.md).

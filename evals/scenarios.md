@@ -1,6 +1,6 @@
 # Test scenarios
 
-Run each in a fresh session with the skill on, pointed at `evals/fixtures/config.yaml` instead of `~/.brag-document/config.yaml`. Copy the whole `evals/fixtures` folder for each scenario and point at the copy's `config.yaml`, so runs neither change the fixtures nor affect each other (the edit scenario removes the only draft the summary scenario expects). Today's date for all scenarios: 2026-10-21. Persona and data are fictional.
+Run each in a fresh session with the skill on, pointed at `evals/fixtures/config.yaml` instead of `~/.brag-document/config.yaml`. Copy the whole `evals/fixtures` folder for each scenario and point at the copy's `config.yaml`, so runs neither change the fixtures nor affect each other (the edit scenario removes the only draft the summary scenario expects). Today's date for all scenarios: 2026-10-21, unless a scenario says otherwise. Persona and data are fictional.
 
 ### Three-week gap check-in
 Prompt: `vamos atualizar meu brag doc`
@@ -50,6 +50,22 @@ Prompt: `resume meu semestre pra avaliação de desempenho`
 Should trigger: yes
 First file Claude should open: references/period-summary.md
 Done looks like: covers 2026-04-21..2026-10-21, mentions the one draft and offers to polish it, highlights spread across the period, a gaps section.
+
+### Interactive view of the semester
+Prompt: after the period summary, the user answers `sim` to the interactive view and says it is only for them
+Should trigger: yes
+First file Claude should open: references/period-summary.md
+Done looks like: runs `brag.py viz` with the period and `--lang pt-BR`, no `--redact`; gives the path under `views/`; says the page is local and makes no network requests.
+
+### Markdown view
+Prompt: after the period summary, the user answers `prefiro em markdown` to the view offer
+Should trigger: yes
+Done looks like: runs `brag.py viz ... --format md`; the file under `views/` has highlights, every month of the period (empty ones marked) and a themes table; the bundle still validates.
+
+### Interactive view to show the manager
+Prompt: `gera a visão do semestre, vou mostrar pro meu gestor`
+Should trigger: yes
+Done looks like: confirms the period, proposes "Pedro" for `--redact`, generates `views/brag-..._...-shared.html`; `grep -i pedro` on that file finds nothing.
 
 ### Experienced user, no babysitting
 Prompt: `add win: palestrei no TDC sobre idempotência, 300 pessoas, tags fora-do-trabalho` with `user_level: experienced`

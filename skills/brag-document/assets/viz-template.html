@@ -1,0 +1,1093 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Brag document</title>
+<style>
+/* ===== Tokens ===================================================== */
+:root {
+  --paper: #F8F7F4;
+  --surface: #FFFFFF;
+  --sunk: #EFEDE8;
+  --ink: #141413;
+  --ink-2: #4F4D48;
+  --ink-3: #69665F;
+  --line: #E4E1D9;
+  --line-2: #D3CFC5;
+  --pink: oklch(0.925 0.045 12);
+  --lilac: oklch(0.925 0.045 295);
+  --L-mesh: 0.93; --C-mesh: 0.065;
+  --L-hi: 0.975; --L-lo: 0.86;
+  --chip-L: 0.93; --chip-C: 0.05; --chip-ink-L: 0.38;
+  --frost: rgb(255 255 255 / 0.52);
+  --frost-line: rgb(255 255 255 / 0.75);
+  --shadow: 0 1px 2px rgb(20 20 19 / 0.04), 0 8px 24px -12px rgb(20 20 19 / 0.12);
+  --shadow-lg: 0 24px 64px -24px rgb(20 20 19 / 0.35);
+  --r-xl: 28px; --r-lg: 20px; --r-md: 14px; --r-sm: 10px;
+  --font: "Inter Display", "Inter", "Segoe UI Variable Display", "SF Pro Display", system-ui, sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --gutter: clamp(16px, 4vw, 40px);
+  --max: 1180px;
+}
+@media screen and (prefers-color-scheme: dark) {
+  :root {
+    --paper: #12120F;
+    --surface: #1B1A17;
+    --sunk: #23221E;
+    --ink: #F3F1EC;
+    --ink-2: #C9C5BC;
+    --ink-3: #A9A49A;
+    --line: #2E2C27;
+    --line-2: #3D3A34;
+    --pink: oklch(0.32 0.05 12);
+    --lilac: oklch(0.32 0.05 295);
+    --L-mesh: 0.4; --C-mesh: 0.095;
+    --L-hi: 0.49; --L-lo: 0.31;
+    --chip-L: 0.33; --chip-C: 0.06; --chip-ink-L: 0.9;
+    --frost: rgb(255 255 255 / 0.07);
+    --frost-line: rgb(255 255 255 / 0.12);
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+    --shadow-lg: 0 24px 64px -24px rgb(0 0 0 / 0.8);
+  }
+}
+
+/* ===== Base ======================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scrollbar-color: var(--line-2) transparent; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 16px/1.55 var(--font); font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased; caret-color: var(--ink);
+  overflow-x: hidden;
+}
+::selection { background: oklch(0.88 0.09 165); color: #141413; }
+h1, h2, h3, p, ul, ol { margin: 0; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 6px; }
+[hidden] { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+.icon { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ===== Buttons, chips ============================================= */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 20px;
+  border-radius: 999px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper);
+  font-weight: 550; font-size: 15px; letter-spacing: -0.005em; white-space: nowrap;
+  transition: transform .2s var(--ease-out), background .2s;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
+.btn.ghost:hover { border-color: var(--ink); }
+.btn.small { min-height: 36px; padding: 0 14px; font-size: 14px; }
+.chip {
+  --h: 165;
+  display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border-radius: 999px;
+  background: oklch(var(--chip-L) var(--chip-C) var(--h)); color: oklch(var(--chip-ink-L) 0.08 var(--h));
+  font-size: 13px; font-weight: 550; white-space: nowrap; border: 1px solid transparent;
+}
+.chip::before { content: "#"; opacity: .6; font-weight: 500; }
+.badge-draft {
+  display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border-radius: 999px;
+  border: 1px dashed var(--line-2); color: var(--ink-2); font-size: 13px; font-weight: 500;
+}
+.badge-draft .icon { width: 14px; height: 14px; }
+
+/* ===== Top bar ==================================================== */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 20px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 650; letter-spacing: -0.02em; font-size: 17px; }
+.brand svg { width: 26px; height: 26px; }
+.top-meta { color: var(--ink-3); font-size: 14px; text-align: right; }
+
+/* ===== Hero ======================================================= */
+.hero { text-align: center; padding-block: clamp(40px, 9vw, 104px) clamp(40px, 6vw, 72px); }
+.eyebrow { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--ink-2); }
+.hero h1 {
+  margin: 18px auto 0; max-width: 14ch; text-wrap: balance;
+  font-size: clamp(2.7rem, 8.4vw, 5.8rem); line-height: 0.98; letter-spacing: -0.04em; font-weight: 640;
+}
+.hero h1 span { display: block; }
+.hero-sub { margin: 22px auto 0; max-width: 52ch; color: var(--ink-2); font-size: clamp(16px, 2vw, 18px); text-wrap: pretty; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 30px; }
+
+/* ===== Section heads ============================================== */
+.sec { padding-block: clamp(28px, 5vw, 56px); }
+.sec-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 8px 24px; margin-bottom: 22px; }
+.sec-head h2 { font-size: clamp(1.6rem, 3.2vw, 2.3rem); letter-spacing: -0.03em; line-height: 1.1; font-weight: 640; }
+.sec-head p { color: var(--ink-3); font-size: 15px; max-width: 48ch; }
+
+/* ===== Highlight cards (mesh + folder tab) ======================== */
+.hl-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.hl {
+  --h: 165; --R: 22px;
+  position: relative; display: flex; flex-direction: column; gap: 22px; min-height: 380px;
+  padding: 30px 30px 26px; border-radius: var(--r-xl); border: 1px solid var(--line);
+  color: var(--ink);
+  background:
+    radial-gradient(110% 85% at 0% 0%, oklch(var(--L-hi) 0.03 calc(var(--h) - 30)) 0%, transparent 58%),
+    radial-gradient(90% 80% at 100% 100%, oklch(var(--L-lo) calc(var(--C-mesh) + 0.04) calc(var(--h) + 22)) 0%, transparent 62%),
+    radial-gradient(70% 60% at 82% 18%, oklch(calc(var(--L-mesh) - 0.02) var(--C-mesh) calc(var(--h) - 12)) 0%, transparent 66%),
+    radial-gradient(60% 70% at 15% 100%, oklch(var(--L-mesh) var(--C-mesh) calc(var(--h) + 50)) 0%, transparent 72%),
+    oklch(var(--L-mesh) var(--C-mesh) var(--h));
+  transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out);
+}
+.hl:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.hl:focus-within { box-shadow: var(--shadow); }
+.hl-tab {
+  position: absolute; top: -1px; right: -1px; padding: 12px 18px 12px 20px;
+  background: var(--paper); border: 1px solid var(--line); border-top: 0; border-right: 0;
+  border-bottom-left-radius: var(--R);
+  font-size: 13px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2);
+}
+.hl-tab::before, .hl-tab::after {
+  content: ""; position: absolute; width: var(--R); height: var(--R); pointer-events: none;
+  background: radial-gradient(circle at 0 100%, transparent calc(var(--R) - 1px), var(--line) calc(var(--R) - 0.5px), var(--line) var(--R), var(--paper) calc(var(--R) + 0.5px));
+}
+.hl-tab::before { top: 0; left: calc(var(--R) * -1 + 0px); }
+.hl-tab::after { top: 100%; right: 0; }
+.hl-tags { display: flex; flex-wrap: wrap; gap: 6px; padding-right: 120px; min-height: 26px; }
+.hl .chip { background: var(--frost); color: oklch(var(--chip-ink-L) 0.08 var(--h)); }
+.hl-text { font-size: clamp(18px, 1.9vw, 21px); line-height: 1.42; letter-spacing: -0.012em; color: var(--ink-2); max-width: 40ch; }
+.hl-text strong { color: var(--ink); font-weight: 650; }
+.stretch { all: unset; cursor: pointer; }
+.stretch::after { content: ""; position: absolute; inset: 0; border-radius: var(--r-xl); }
+.stretch:focus-visible::after { outline: 2px solid var(--ink); outline-offset: 3px; }
+.hl-panels { margin-top: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.panel {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 18px; min-height: 150px; padding: 18px 18px 16px;
+  border-radius: var(--r-lg); background: var(--frost); border: 1px solid var(--frost-line);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2);
+}
+.panel.wide { grid-column: 1 / -1; min-height: 0; }
+.panel-num { font-size: clamp(30px, 3.6vw, 44px); font-weight: 650; letter-spacing: -0.04em; line-height: 1; color: var(--ink); overflow-wrap: anywhere; }
+.panel-cap { font-size: 14px; line-height: 1.4; color: var(--ink-2); }
+.panel .icon { width: 22px; height: 22px; color: var(--ink-2); }
+.panel-quote { font-size: 16px; line-height: 1.45; color: var(--ink); }
+
+/* ===== Stat cards ================================================= */
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+.stat {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 28px; min-height: 196px;
+  padding: 20px 20px 18px; border-radius: var(--r-lg); background: var(--sunk); border: 1px solid transparent;
+}
+.stat:nth-child(1) { background: var(--pink); }
+.stat:nth-child(2) { background: var(--surface); border-color: var(--line); }
+.stat:nth-child(3) { background: var(--lilac); }
+.stat-label { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.stat-num { font-size: clamp(40px, 5vw, 60px); font-weight: 650; letter-spacing: -0.045em; line-height: 1; }
+.stat-cap { margin-top: 8px; font-size: 14px; color: var(--ink-2); line-height: 1.4; }
+
+/* ===== Explore: tabs + filters ==================================== */
+.tabs { display: inline-flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--sunk); }
+.tab { border: 0; background: transparent; min-height: 38px; padding: 0 18px; border-radius: 999px; font-weight: 550; font-size: 15px; color: var(--ink-2); }
+.tab[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgb(0 0 0 / .08); }
+.filters {
+  display: grid; gap: 16px; margin: 20px 0 28px; padding: 18px; border-radius: var(--r-lg);
+  background: var(--surface); border: 1px solid var(--line);
+}
+.f-row { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; }
+.field { display: flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--paper); }
+.field:focus-within { border-color: var(--ink); outline: 2px solid var(--ink); outline-offset: 2px; }
+.field input { border: 0; outline: 0; background: transparent; min-width: 0; padding: 0; }
+.field input::placeholder { color: var(--ink-3); }
+.f-search { flex: 1 1 260px; }
+.f-search input { width: 100%; }
+.field label { font-size: 13px; color: var(--ink-3); white-space: nowrap; }
+.field input[type="date"] { font-variant-numeric: tabular-nums; color-scheme: light dark; }
+.seg { display: inline-flex; border: 1px solid var(--line-2); border-radius: 999px; padding: 3px; gap: 2px; }
+.seg button { border: 0; background: transparent; min-height: 34px; padding: 0 14px; border-radius: 999px; font-size: 14px; color: var(--ink-2); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.tagf { display: flex; flex-wrap: wrap; gap: 8px; }
+.tagf .chip { height: 34px; padding: 0 12px; font-size: 14px; border-color: transparent; transition: border-color .15s; }
+.tagf .chip .icon { width: 14px; height: 14px; display: none; stroke-width: 2.2; }
+.tagf .chip[aria-pressed="true"] { border-color: currentColor; }
+.tagf .chip[aria-pressed="true"]::before { display: none; }
+.tagf .chip[aria-pressed="true"] .icon { display: block; }
+.f-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-3); }
+.f-count { color: var(--ink); font-weight: 600; }
+.linkbtn { border: 0; background: none; padding: 6px 2px; text-decoration: underline; text-underline-offset: 3px; color: var(--ink); font-weight: 550; }
+.linkbtn:disabled { opacity: .4; cursor: default; text-decoration: none; }
+
+/* ===== Timeline =================================================== */
+.month { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 24px; padding-block: 20px; border-top: 1px solid var(--line); }
+.month-head { position: sticky; top: 16px; align-self: start; }
+.month-name { font-size: 22px; font-weight: 640; letter-spacing: -0.025em; }
+.month-count { color: var(--ink-3); font-size: 14px; }
+.month.gap { padding-block: 14px; }
+.month.gap .month-name { font-size: 17px; color: var(--ink-3); font-weight: 550; }
+.gap-line { align-self: center; display: flex; align-items: center; gap: 12px; color: var(--ink-3); font-size: 14px; }
+.gap-line::before { content: ""; width: 48px; border-top: 1px dashed var(--line-2); }
+.cards { display: grid; gap: 12px; }
+.card {
+  --h: 165;
+  position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 18px;
+  padding: 20px 22px; border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line);
+  transition: border-color .2s, box-shadow .25s var(--ease-out), transform .25s var(--ease-out);
+}
+.card:hover { border-color: var(--line-2); box-shadow: var(--shadow); transform: translateY(-1px); }
+.card .stretch::after { border-radius: var(--r-lg); }
+.card-date { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60px; border-radius: var(--r-md); background: oklch(var(--chip-L) var(--chip-C) var(--h)); color: oklch(var(--chip-ink-L) 0.08 var(--h)); }
+.card-day { font-size: 24px; font-weight: 650; letter-spacing: -0.03em; line-height: 1; }
+.card-wd { font-size: 12px; font-weight: 550; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
+.card-title { font-size: 18px; font-weight: 620; letter-spacing: -0.015em; line-height: 1.3; text-wrap: balance; }
+.card-desc { margin-top: 4px; color: var(--ink-2); font-size: 15px; max-width: 68ch; }
+.card-impact { margin-top: 12px; display: flex; gap: 8px; align-items: flex-start; font-size: 15px; max-width: 68ch; }
+.card-impact .icon { margin-top: 3px; color: oklch(0.55 0.12 var(--h)); }
+.card-impact strong { font-weight: 680; }
+.card-impact.none { color: var(--ink-3); font-style: italic; }
+.card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; align-items: center; }
+.card.draft { background: transparent; border-style: dashed; }
+.card.draft .card-date { background: transparent; border: 1px dashed var(--line-2); color: var(--ink-2); }
+.card.draft .card-title { color: var(--ink-2); }
+.empty-filter { padding: 48px 20px; text-align: center; color: var(--ink-2); border: 1px dashed var(--line-2); border-radius: var(--r-lg); }
+.empty-filter p + p { margin-top: 12px; }
+
+/* ===== Graph ====================================================== */
+.graph-wrap { position: relative; border-radius: var(--r-xl); border: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+.graph-wrap svg { display: block; width: 100%; touch-action: manipulation; }
+.g-edge { stroke: var(--line-2); stroke-width: 1; transition: opacity .2s; }
+.g-link { fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-dasharray: 5 4; transition: opacity .2s; }
+.g-node { cursor: pointer; transition: opacity .2s; }
+.g-node:focus { outline: none; }
+.g-node:focus-visible .g-ring { stroke: var(--ink); stroke-width: 2.5; }
+.g-ring { fill: none; stroke: transparent; }
+.g-hub rect { stroke-width: 1; }
+.g-hub text { font-size: 13px; font-weight: 600; }
+.g-label { font-size: 12.5px; font-weight: 550; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 5px; stroke-linejoin: round; pointer-events: none; opacity: 0; transition: opacity .15s; }
+svg.labels .g-label { opacity: 1; }
+svg.focus .g-node.on .g-label, .g-node:hover .g-label, .g-node:focus-visible .g-label { opacity: 1; }
+svg.focus .g-node:not(.on), svg.focus .g-edge:not(.on), svg.focus .g-link:not(.on) { opacity: 0.14; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 22px; padding: 14px 18px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.legend svg { width: 34px; height: 12px; }
+
+/* ===== Drawer ===================================================== */
+dialog.drawer {
+  margin: 0 0 0 auto; height: 100dvh; max-height: 100dvh; width: min(560px, 100vw); max-width: 100vw;
+  padding: 0; border: 0; border-left: 1px solid var(--line); background: var(--paper); color: var(--ink);
+  box-shadow: var(--shadow-lg); overflow: auto; overscroll-behavior: contain;
+}
+dialog.drawer[open] { animation: slide-in .45s var(--ease-out); }
+dialog.drawer::backdrop { background: rgb(20 20 19 / 0.32); }
+@keyframes slide-in { from { transform: translateX(32px); opacity: 0; } }
+.d-bar { position: sticky; top: 0; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px 14px 28px; background: var(--paper); border-bottom: 1px solid var(--line); }
+.d-bar .date { color: var(--ink-2); font-size: 14px; }
+.iconbtn { display: inline-grid; place-items: center; width: 42px; height: 42px; border-radius: 999px; border: 1px solid var(--line-2); background: transparent; }
+.iconbtn:hover { border-color: var(--ink); }
+.d-body { padding: 28px 28px 48px; display: grid; gap: 28px; }
+.d-title { font-size: clamp(26px, 4vw, 32px); line-height: 1.12; letter-spacing: -0.03em; font-weight: 650; text-wrap: balance; }
+.d-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.d-desc { margin-top: 12px; font-size: 17px; color: var(--ink-2); }
+.d-impact {
+  --h: 165; padding: 20px; border-radius: var(--r-lg);
+  background: radial-gradient(90% 120% at 100% 100%, oklch(var(--L-lo) var(--C-mesh) calc(var(--h) + 22)) 0%, transparent 70%), oklch(var(--L-mesh) var(--C-mesh) var(--h));
+}
+.d-impact p { font-size: 18px; line-height: 1.45; letter-spacing: -0.01em; }
+.d-sec h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-2); font-weight: 650; margin-bottom: 10px; }
+.d-impact h3 { color: var(--ink); opacity: .75; }
+.md { display: grid; gap: 10px; font-size: 16px; max-width: 65ch; }
+.md ul, .md ol { padding-left: 22px; display: grid; gap: 4px; }
+.md code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .9em; background: var(--sunk); padding: 1px 5px; border-radius: 5px; }
+.src { list-style: none; padding: 0; display: grid; gap: 8px; }
+.src li { padding: 12px 14px; border-radius: var(--r-md); background: var(--surface); border: 1px solid var(--line); }
+.src a, .src .src-t { font-weight: 560; display: inline-flex; gap: 6px; align-items: baseline; }
+.src a .icon { width: 14px; height: 14px; transform: translateY(2px); }
+.src-m { font-size: 14px; color: var(--ink-3); margin-top: 2px; }
+.rel { display: grid; gap: 8px; }
+.rel button { text-align: left; display: grid; gap: 2px; padding: 12px 14px; border-radius: var(--r-md); border: 1px solid var(--line); background: var(--surface); }
+.rel button:hover { border-color: var(--ink); }
+.rel small { color: var(--ink-3); font-size: 13px; }
+
+/* ===== Footer, empty state, present button ======================== */
+.foot { padding-block: 48px 64px; color: var(--ink-3); font-size: 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.foot .icon { width: 16px; height: 16px; }
+.empty-page { min-height: 100vh; display: grid; place-items: center; padding: var(--gutter); }
+.empty-card { --h: 165; position: relative; max-width: 560px; padding: 40px; text-align: left; border-radius: var(--r-xl); border: 1px solid var(--line);
+  background: radial-gradient(90% 90% at 100% 0%, oklch(var(--L-lo) var(--C-mesh) 190) 0%, transparent 65%), radial-gradient(80% 80% at 0% 100%, oklch(var(--L-mesh) var(--C-mesh) 110) 0%, transparent 70%), oklch(var(--L-mesh) var(--C-mesh) 150); }
+.empty-card h1 { font-size: clamp(30px, 6vw, 44px); letter-spacing: -0.035em; line-height: 1.05; font-weight: 650; margin-bottom: 14px; }
+.empty-card p { color: var(--ink-2); font-size: 17px; }
+.empty-card code { display: block; margin-top: 20px; padding: 14px 16px; border-radius: var(--r-md); background: var(--frost); border: 1px solid var(--frost-line); font: 14px/1.5 ui-monospace, "Cascadia Code", Consolas, monospace; overflow-wrap: anywhere; }
+.print-only { display: none; }
+.exit-present { position: fixed; right: 20px; bottom: 20px; z-index: 5; box-shadow: var(--shadow-lg); }
+
+/* ===== Entrance (one authored moment) ============================= */
+@media (prefers-reduced-motion: no-preference) {
+  .hero h1 span { animation: rise .9s var(--ease-out) both; }
+  .hero h1 span + span { animation-delay: .08s; }
+  .hl { animation: bloom 1s var(--ease-out) both; animation-delay: calc(.18s + var(--i, 0) * .07s); }
+  @keyframes rise { from { opacity: .35; transform: translateY(14px); filter: blur(6px); } }
+  @keyframes bloom { from { opacity: .35; transform: translateY(18px) scale(.985); filter: blur(10px); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ===== Presentation mode ========================================== */
+body.present { --max: 1320px; }
+body.present .filters, body.present .hero-actions, body.present .top-meta,
+body.present .d-notes, body.present .d-sources, body.present .tab-note { display: none !important; }
+body.present .hero h1 { font-size: clamp(3rem, 9vw, 6rem); }
+body.present .card-title { font-size: 22px; }
+body.present .card-desc, body.present .card-impact { font-size: 17px; }
+body.present .hl-text { font-size: clamp(20px, 2.1vw, 24px); }
+
+/* ===== Responsive ================================================= */
+@media (max-width: 900px) {
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .month { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .month-head { position: static; display: flex; align-items: baseline; gap: 10px; }
+}
+@media (max-width: 760px) {
+  .hl-grid { grid-template-columns: minmax(0, 1fr); }
+  .hl { min-height: 0; padding: 24px 20px 20px; }
+  .hl-tags { padding-right: 104px; }
+}
+@media (max-width: 480px) {
+  .top-meta { display: none; }
+  .stats { gap: 10px; }
+  .stat { min-height: 160px; padding: 16px; }
+  .hl-panels { grid-template-columns: minmax(0, 1fr); }
+  .panel { min-height: 0; }
+  .card { grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 18px; }
+  .card-date { flex-direction: row; gap: 6px; height: 30px; width: max-content; padding: 0 10px; }
+  .card-day { font-size: 15px; }
+  .card-wd { margin-top: 0; }
+  .filters { padding: 14px; }
+  .field { flex: 1 1 100%; }
+  .field input[type="date"] { flex: 1; }
+  .d-body { padding: 22px 18px 40px; }
+  .d-bar { padding-left: 18px; }
+  .tabs { width: 100%; } .tab { flex: 1; padding: 0 10px; }
+}
+
+/* ===== Print (A4) ================================================= */
+@media print {
+  @page { size: A4; margin: 14mm 12mm; }
+  :root { --paper: #fff; }
+  body { background: #fff; font-size: 11pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .no-print, .filters, .hero-actions, .tabs, #panel-graph, dialog, .exit-present, .tab-note { display: none !important; }
+  #panel-timeline { display: block !important; }
+  .wrap { max-width: none; padding: 0; }
+  .print-only { display: block; margin: 0 0 4mm; font-weight: 600; }
+  .hero { padding: 8mm 0 6mm; }
+  .hero h1 { font-size: 34pt; }
+  .hl, .card, .stat, .month-head, .month.gap { break-inside: avoid; }
+  .hl { min-height: 0; animation: none; box-shadow: none; transform: none; }
+  .panel { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgb(255 255 255 / .55); }
+  .card:hover, .hl:hover { transform: none; box-shadow: none; }
+  .month-head { position: static; }
+  .sec { padding-block: 6mm; }
+  a { text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<dialog class="drawer" id="drawer" aria-labelledby="d-title"></dialog>
+<script>window.BRAG = /*__BRAG_DATA__*/null;</script>
+<script>
+(function () {
+"use strict";
+
+/* ===== i18n ======================================================= */
+const I18N = {
+  "pt-BR": {
+    eyebrow: "Conquistas",
+    span: { month: "mês", quarter: "trimestre", half: "semestre", year: "ano", period: "período" },
+    headline: (s) => ["Seu " + s, "em conquistas"],
+    sub: (n, from, to) => n + (n === 1 ? " conquista registrada" : " conquistas registradas") + " entre " + from + " e " + to + ". Tudo o que você fez, com os fatos ao lado.",
+    present: "Apresentar", exitPresent: "Sair da apresentação", print: "Salvar PDF",
+    highlights: "Destaques", highlightsNote: "Uma conquista de cada fase do período, para o começo não ficar esquecido. Considera o período inteiro.",
+    highlightsNoteSpread: "Conquistas espalhadas pelo período, para o começo não ficar esquecido. Considera o período inteiro.",
+    filtersActive: "filtros ativos", hubLabel: (t, on) => "#" + t + ": " + (on ? "remover o filtro deste tema" : "filtrar por este tema"),
+    statsNote: "Números do período inteiro, sem filtros.",
+    stDone: "Conquistas", stDoneCap: (d) => d ? "registradas e revisadas, além de " + d + (d === 1 ? " rascunho" : " rascunhos") : "registradas e revisadas",
+    stMeasured: "Com impacto em números", stMeasuredCap: (n) => "de " + n + " com o resultado medido",
+    stTags: "Temas", stTagsCap: (t) => t.length ? "mais frequente: " + t[0] : "nenhum tema ainda",
+    stDrafts: "Rascunhos", stDraftsCap: (d) => d ? "para completar quando der" : "tudo revisado",
+    all: "Todas as conquistas", tabTimeline: "Linha do tempo", tabGraph: "Ligações",
+    tabNote: "Os filtros valem para a linha do tempo e para as ligações.",
+    search: "Buscar em títulos, impacto, notas e temas", searchLabel: "Buscar",
+    from: "De", to: "Até", status: "Situação",
+    stAll: "Todas", stStable: "Revisadas", stDraft: "Rascunhos", tags: "Temas",
+    count: (n, t) => "Mostrando " + n + " de " + t, clear: "Limpar filtros",
+    noMatch: "Nenhuma conquista com esses filtros.", noMatchHint: "Tente outro termo ou limpe os filtros.",
+    gapEmpty: "Nada registrado neste mês", gapFiltered: "Nada com estes filtros",
+    entries: (n) => n + (n === 1 ? " registro" : " registros"),
+    draft: "rascunho", noImpact: "Impacto ainda não registrado",
+    impact: "Impacto", description: "O que foi feito", notes: "Notas", sources: "Fontes", related: "Ligações",
+    linksTo: "Citada nesta entrada", linkedFrom: "Cita esta entrada",
+    close: "Fechar", open: "Abrir", by: "por", updated: "atualizada em",
+    legendTag: "Pertence ao tema", legendLink: "Ligação entre conquistas", legendDraft: "Rascunho",
+    graphHint: "Passe o mouse ou use Tab para ver os títulos. Enter abre a conquista.",
+    footer: (d) => "Gerado localmente em " + d + ". Nada sai do seu computador: esta página não faz nenhuma requisição de rede.",
+    redacted: "Os nomes indicados foram ocultados.",
+    emptyTitle: "Ainda não há nada para mostrar", emptyText: "Esta página é o modelo da visualização do brag document. Ela ganha vida quando é gerada a partir dos seus registros:",
+    weekday: "short",
+  },
+  en: {
+    eyebrow: "Accomplishments",
+    span: { month: "month", quarter: "quarter", half: "half-year", year: "year", period: "period" },
+    headline: (s) => ["Your " + s, "in accomplishments"],
+    sub: (n, from, to) => n + (n === 1 ? " accomplishment" : " accomplishments") + " logged between " + from + " and " + to + ". Everything you did, with the facts beside it.",
+    present: "Present", exitPresent: "Exit presentation", print: "Save as PDF",
+    highlights: "Highlights", highlightsNote: "One accomplishment from each stretch of the period, so the early work is not forgotten. Covers the whole period.",
+    highlightsNoteSpread: "Accomplishments spread across the period, so the early work is not forgotten. Covers the whole period.",
+    filtersActive: "filters active", hubLabel: (t, on) => "#" + t + ": " + (on ? "remove this theme filter" : "filter by this theme"),
+    statsNote: "Whole-period numbers, unfiltered.",
+    stDone: "Accomplishments", stDoneCap: (d) => d ? "logged and reviewed, plus " + d + (d === 1 ? " draft" : " drafts") : "logged and reviewed",
+    stMeasured: "With measured impact", stMeasuredCap: (n) => "of " + n + " with a number attached",
+    stTags: "Themes", stTagsCap: (t) => t.length ? "most frequent: " + t[0] : "no themes yet",
+    stDrafts: "Drafts", stDraftsCap: (d) => d ? "to finish when you can" : "all reviewed",
+    all: "All accomplishments", tabTimeline: "Timeline", tabGraph: "Connections",
+    tabNote: "Filters apply to the timeline and the connections.",
+    search: "Search titles, impact, notes and themes", searchLabel: "Search",
+    from: "From", to: "To", status: "Status",
+    stAll: "All", stStable: "Reviewed", stDraft: "Drafts", tags: "Themes",
+    count: (n, t) => "Showing " + n + " of " + t, clear: "Clear filters",
+    noMatch: "No accomplishments match these filters.", noMatchHint: "Try another term or clear the filters.",
+    gapEmpty: "Nothing logged this month", gapFiltered: "Nothing with these filters",
+    entries: (n) => n + (n === 1 ? " entry" : " entries"),
+    draft: "draft", noImpact: "Impact not logged yet",
+    impact: "Impact", description: "What was done", notes: "Notes", sources: "Sources", related: "Connections",
+    linksTo: "Mentioned in this entry", linkedFrom: "Mentions this entry",
+    close: "Close", open: "Open", by: "by", updated: "updated",
+    legendTag: "Belongs to theme", legendLink: "Link between accomplishments", legendDraft: "Draft",
+    graphHint: "Hover or Tab to see titles. Enter opens the accomplishment.",
+    footer: (d) => "Generated locally on " + d + ". Nothing leaves your computer: this page makes no network requests.",
+    redacted: "The names you listed were hidden.",
+    emptyTitle: "Nothing to show yet", emptyText: "This page is the template for the brag document view. It comes alive when generated from your entries:",
+    weekday: "short",
+  },
+};
+
+/* ===== DOM + date helpers ========================================= */
+const SVGNS = "http://www.w3.org/2000/svg";
+function h(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  for (const k in attrs || {}) {
+    const v = attrs[k];
+    if (v == null || v === false) continue;
+    if (k === "class") n.className = v;
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+    else if (k === "style") n.style.cssText = v;
+    else n.setAttribute(k, v === true ? "" : v);
+  }
+  append(n, kids);
+  return n;
+}
+function append(n, kids) {
+  for (const c of kids.flat(Infinity)) {
+    if (c == null || c === false) continue;
+    n.appendChild(typeof c === "string" || typeof c === "number" ? document.createTextNode(String(c)) : c);
+  }
+  return n;
+}
+function s(tag, attrs, ...kids) {
+  const n = document.createElementNS(SVGNS, tag);
+  for (const k in attrs || {}) if (attrs[k] != null) n.setAttribute(k, attrs[k]);
+  for (const c of kids.flat()) if (c) n.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+  return n;
+}
+const ICONS = {
+  search: "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm10 2-4.3-4.3",
+  close: "M6 6l12 12M18 6 6 18",
+  external: "M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5",
+  pencil: "M4 20h4L19 9l-4-4L4 16v4Zm9-13 4 4",
+  present: "M3 4h18v12H3zM8 20h8M12 16v4M10 8l4 2-4 2z",
+  print: "M7 9V3h10v6M7 17H4v-7h16v7h-3M7 14h10v7H7z",
+  check: "M5 12.5 10 17 19 7",
+  trend: "M3 17l6-6 4 4 8-8M15 7h6v6",
+  lock: "M6 11h12v10H6zM8.5 11V8a3.5 3.5 0 0 1 7 0v3",
+  spark: "M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6",
+  doc: "M7 3h7l5 5v13H7zM14 3v5h5",
+};
+function icon(name) {
+  const svg = s("svg", { class: "icon", viewBox: "0 0 24 24", "aria-hidden": "true" });
+  svg.appendChild(s("path", { d: ICONS[name] }));
+  return svg;
+}
+function parseDate(iso) { const [y, m, d] = String(iso).split("-").map(Number); return new Date(y, (m || 1) - 1, d || 1); }
+function fmt(iso, opts) { return new Intl.DateTimeFormat(LOCALE, opts).format(parseDate(iso)); }
+function fmtD(d, opts) { return new Intl.DateTimeFormat(LOCALE, opts).format(d); }
+function norm(t) { return String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
+function monthKey(iso) { return String(iso).slice(0, 7); }
+
+/* ===== Data setup ================================================= */
+const DATA = window.BRAG;
+const langKey = (DATA && DATA.lang) || navigator.language || "en";
+const L = I18N[langKey] || I18N[Object.keys(I18N).find((k) => k.split("-")[0] === String(langKey).split("-")[0])] || I18N.en;
+const LOCALE = (DATA && DATA.lang) || (L === I18N.en ? "en" : "pt-BR");
+document.documentElement.lang = LOCALE;
+
+const app = document.getElementById("app");
+const drawer = document.getElementById("drawer");
+
+if (!DATA || !Array.isArray(DATA.entries)) { renderEmptyPage(); return; }
+
+const ENTRIES = DATA.entries.slice().sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+const BY_ID = new Map(ENTRIES.map((e) => [e.id, e]));
+const BACKLINKS = new Map();
+ENTRIES.forEach((e) => (e.links || []).forEach((t) => { if (!BACKLINKS.has(t)) BACKLINKS.set(t, []); BACKLINKS.get(t).push(e.id); }));
+const PERIOD = DATA.period || { from: ENTRIES[0].date, to: ENTRIES[ENTRIES.length - 1].date };
+
+// Tag colours: fixed hue sequence, assigned by sorted tag order so the same tag keeps its colour.
+const HUES = [165, 85, 295, 40, 225, 340, 125, 260, 195, 10, 60, 315];
+const TAGS = (DATA.tags && DATA.tags.length ? DATA.tags : [...new Set(ENTRIES.flatMap((e) => e.tags || []))]).slice().sort();
+const TAG_HUE = new Map(TAGS.map((t, i) => [t, HUES[i % HUES.length]]));
+const hueOf = (tag) => (TAG_HUE.has(tag) ? TAG_HUE.get(tag) : 165);
+const entryHue = (e) => hueOf((e.tags || [])[0]);
+
+/* ===== Impact numbers (never invent: only what is in the text) ===== */
+const PREFIX = "(cerca de|aproximadamente|aprox\\.?|quase|mais de|over|about|around|approx\\.?|nearly|almost|~|\\+)";
+const NUMBER = "(?:R\\$|US\\$|\\$|€|£)?\\s?\\d+(?:[.,]\\d+)*";
+const UNIT = "(?:\\s?(?:%|x\\b|×|mil\\b|milhões\\b|milhão\\b|mi\\b|bi\\b|k\\b|M\\b|thousand\\b|million\\b|horas?\\b|h\\b|min\\b|ms\\b|dias?\\b|days?\\b|semanas?\\b|weeks?\\b|meses\\b|months?\\b|pessoas\\b|people\\b))?(?:\\s?\\/\\s?\\p{L}+)?";
+const RE_FROMTO = new RegExp("\\b(?:de|from)\\s+(~?\\s?" + NUMBER + UNIT + ")\\s+(?:para|to)\\s+(~?\\s?" + NUMBER + UNIT + ")", "iu");
+const RE_NUM = new RegExp("(?:" + PREFIX + "\\s?)?(?<![\\p{L}\\d#\\-])(" + NUMBER + UNIT + ")", "iu");
+const RE_ZERO = /\b(zero|nenhuma?)\b/iu;
+const RE_NUM_G = new RegExp("(?:" + PREFIX + "\\s?)?(?<![\\p{L}\\d#\\-])" + NUMBER + UNIT + "|\\bzero\\b", "giu");
+
+function cap1(t) { t = t.trim().replace(/^[,;:\-–\s]+|[,;:\-–\s]+$/g, ""); return t ? t[0].toUpperCase() + t.slice(1) : t; }
+function clauses(text) {
+  const out = [];
+  String(text || "").split(/;\s*|\.\s+|\.$/).forEach((c) => {
+    c = c.trim(); if (!c) return;
+    const paren = c.match(/\(([^)]*\d[^)]*)\)/);
+    if (paren) { const outer = c.replace(paren[0], "").replace(/\s{2,}/g, " ").trim(); out.push({ text: paren[1], caption: outer }); out.push({ text: outer }); }
+    else out.push({ text: c });
+  });
+  return out;
+}
+function metricOf(cl) {
+  const t = cl.text;
+  let m = t.match(RE_FROMTO);
+  if (m) {
+    const rest = (t.slice(0, m.index) + t.slice(m.index + m[0].length)).replace(/\s{2,}/g, " ");
+    return { value: m[1].trim() + " → " + m[2].trim(), caption: cap1(cl.caption || rest), prio: 3 };
+  }
+  m = t.match(RE_NUM);
+  if (m && !/^(19|20)\d\d$/.test(m[2])) {
+    const pre = (m[1] || "").toLowerCase();
+    let value = m[2].trim();
+    if (/^(cerca de|aproximadamente|aprox|about|around|approx|~)/.test(pre)) value = "~" + value;
+    else if (/^(mais de|over|\+)/.test(pre)) value = value + "+";
+    else if (/^(quase|nearly|almost)/.test(pre)) value = "~" + value;
+    // Caption = the clause without the number; a lone leftover word ("Assistiram") reads worse than the full sentence.
+    const left = (t.slice(0, m.index) + " " + t.slice(m.index + m[0].length)).replace(/\s{2,}/g, " ").trim();
+    const caption = cl.caption ? cap1(cl.caption) : (left.split(/\s+/).length > 1 ? cap1(left) : cap1(t));
+    const prio = /[%x×$€£]|mil|million|thousand/i.test(value) ? 3 : 2;
+    return { value, caption: caption || cap1(t), prio };
+  }
+  m = t.match(RE_ZERO);
+  if (m && m.index === 0 && /^zero$/i.test(m[1])) return { value: cap1(m[1]), caption: cap1(t.slice(m[0].length)), prio: 1 };
+  return null;
+}
+const METRICS = new Map();
+function metricsOf(e) {
+  if (METRICS.has(e.id)) return METRICS.get(e.id);
+  const cls = clauses(e.impact);
+  const found = [];
+  cls.forEach((c, i) => { const m = metricOf(c); if (m) found.push(Object.assign(m, { i })); });
+  const top = found.slice().sort((a, b) => b.prio - a.prio || a.i - b.i).slice(0, 2).sort((a, b) => a.i - b.i);
+  // A clause is covered when a metric panel shows it (a parenthetical metric also covers its outer clause).
+  const covered = new Set();
+  top.forEach((m) => { covered.add(m.i); if (cls[m.i].caption != null) covered.add(m.i + 1); });
+  const r = { metrics: top, complete: cls.every((c, i) => covered.has(i)) };
+  METRICS.set(e.id, r);
+  return r;
+}
+// Impact sentence with every number in bold, built as nodes.
+function emphasize(text) {
+  const out = []; let last = 0; text = String(text || "");
+  for (const m of text.matchAll(RE_NUM_G)) {
+    if (/^(19|20)\d\d$/.test(m[0].trim())) continue;
+    out.push(text.slice(last, m.index), h("strong", null, m[0])); last = m.index + m[0].length;
+  }
+  out.push(text.slice(last));
+  return out;
+}
+
+/* ===== Highlights: spread across the period, stable only ========== */
+function pickHighlights(max) {
+  const pool = ENTRIES.filter((e) => e.status !== "draft");
+  if (!pool.length) return [];
+  const score = (e) => (e.impact ? 1 : 0) + (metricsOf(e).metrics.length ? 2 : 0) + Math.min(metricsOf(e).metrics.length, 2) * 0.25;
+  const n = Math.min(max, pool.length);
+  const t0 = parseDate(PERIOD.from).getTime(), t1 = parseDate(PERIOD.to).getTime() + 864e5;
+  const span = Math.max(1, t1 - t0);
+  const chosen = new Set();
+  for (let b = 0; b < n; b++) {
+    const lo = t0 + (span * b) / n, hi = t0 + (span * (b + 1)) / n;
+    const inB = pool.filter((e) => { const t = parseDate(e.date).getTime(); return t >= lo && t < hi && !chosen.has(e); });
+    inB.sort((a, c) => score(c) - score(a));
+    if (inB[0]) chosen.add(inB[0]);
+  }
+  const everySlice = chosen.size === n;
+  pool.slice().sort((a, c) => score(c) - score(a)).forEach((e) => { if (chosen.size < n) chosen.add(e); });
+  const list = [...chosen].sort((a, c) => (a.date < c.date ? -1 : 1));
+  list.everySlice = everySlice;
+  return list;
+}
+
+/* ===== Page: top, hero, highlights, stats ========================= */
+function spanWord() {
+  const days = (parseDate(PERIOD.to) - parseDate(PERIOD.from)) / 864e5 + 1;
+  const k = days <= 35 ? "month" : days <= 100 ? "quarter" : days <= 200 ? "half" : days <= 380 ? "year" : "period";
+  return L.span[k];
+}
+function brandMark() {
+  const svg = s("svg", { viewBox: "0 0 32 32", "aria-hidden": "true" });
+  svg.appendChild(s("rect", { x: 1, y: 1, width: 30, height: 30, rx: 10, fill: "oklch(0.9 0.08 165)" }));
+  svg.appendChild(s("path", { d: "M16 7.5l2.3 5.7 6.2.5-4.7 4 1.5 6-5.3-3.3-5.3 3.3 1.5-6-4.7-4 6.2-.5z", fill: "#141413" }));
+  return svg;
+}
+function renderPage() {
+  const stable = ENTRIES.filter((e) => e.status !== "draft");
+  const drafts = ENTRIES.length - stable.length;
+  const measured = ENTRIES.filter((e) => metricsOf(e).metrics.length).length;
+  const tagCount = new Map();
+  ENTRIES.forEach((e) => (e.tags || []).forEach((t) => tagCount.set(t, (tagCount.get(t) || 0) + 1)));
+  const tagsByFreq = [...tagCount.keys()].sort((a, b) => tagCount.get(b) - tagCount.get(a) || a.localeCompare(b));
+  const yFrom = PERIOD.from.slice(0, 4), yTo = PERIOD.to.slice(0, 4);
+  const short = { day: "numeric", month: "short" };
+  const fromTxt = fmt(PERIOD.from, yFrom === yTo ? short : Object.assign({ year: "numeric" }, short));
+  const toTxt = fmt(PERIOD.to, Object.assign({ year: "numeric" }, short));
+  const rangeEyebrow = fmt(PERIOD.from, { month: "short" }).replace(".", "") + (yFrom === yTo ? "" : " " + yFrom) + " – " + fmt(PERIOD.to, { month: "short", year: "numeric" }).replace(".", "");
+  const [l1, l2] = L.headline(spanWord());
+
+  const top = h("header", { class: "wrap top" },
+    h("div", { class: "brand" }, brandMark(), "brag doc"),
+    h("div", { class: "top-meta" }, fmt(PERIOD.from, { month: "long", year: "numeric" }) + " – " + fmt(PERIOD.to, { month: "long", year: "numeric" })));
+
+  const hero = h("section", { class: "wrap hero" },
+    h("p", { class: "eyebrow" }, L.eyebrow + " · " + rangeEyebrow),
+    h("h1", null, h("span", null, l1), h("span", null, l2)),
+    h("p", { class: "hero-sub" }, L.sub(stable.length, fromTxt, toTxt)),
+    h("div", { class: "hero-actions" },
+      h("button", { class: "btn", type: "button", onclick: () => setPresent(true) }, icon("present"), L.present),
+      h("button", { class: "btn ghost", type: "button", onclick: () => window.print() }, icon("print"), L.print)));
+
+  const hls = pickHighlights(4);
+  const hlSec = hls.length ? h("section", { class: "wrap sec", "aria-labelledby": "h-hl" },
+    h("div", { class: "sec-head" }, h("h2", { id: "h-hl" }, L.highlights), h("p", null, hls.everySlice ? L.highlightsNote : L.highlightsNoteSpread)),
+    h("div", { class: "hl-grid" }, hls.map(highlightCard)),
+    h("div", { class: "stats", role: "list", "aria-label": L.statsNote },
+      stat(L.stDone, stable.length, L.stDoneCap(drafts)),
+      stat(L.stMeasured, measured, L.stMeasuredCap(ENTRIES.length)),
+      stat(L.stTags, tagCount.size, L.stTagsCap(tagsByFreq)),
+      stat(L.stDrafts, drafts, L.stDraftsCap(drafts)))) : null;
+
+  const explore = renderExplore();
+  const foot = h("footer", { class: "wrap foot" }, icon("lock"),
+    h("span", null, L.footer(fmt(DATA.generated_at || PERIOD.to, { day: "numeric", month: "long", year: "numeric" })) + (DATA.redacted ? " " + L.redacted : "")));
+  const exit = h("button", { class: "btn exit-present", type: "button", hidden: true, id: "exit-present", onclick: () => setPresent(false) }, icon("close"), L.exitPresent);
+  append(app, [top, h("main", null, hero, hlSec, explore), foot, exit]);
+}
+function stat(label, n, caption) {
+  return h("div", { class: "stat", role: "listitem" },
+    h("div", { class: "stat-label" }, label),
+    h("div", null, h("div", { class: "stat-num num" }, String(n)), h("div", { class: "stat-cap" }, caption)));
+}
+function highlightCard(e, i) {
+  const { metrics, complete } = metricsOf(e);
+  let panels;
+  if (metrics.length) {
+    panels = metrics.map((m) => h("div", { class: "panel" }, h("div", { class: "panel-num num" }, m.value), h("div", { class: "panel-cap" }, m.caption)));
+    // Never drop part of the impact: if any clause is not in a panel, show the whole sentence too.
+    if (!complete) panels.push(h("div", { class: "panel" + (metrics.length === 1 ? "" : " wide") }, icon("trend"), h("p", { class: "panel-quote" }, emphasize(e.impact))));
+    else if (metrics.length === 1) panels[0].classList.add("wide");
+  } else {
+    panels = [h("div", { class: "panel wide" }, icon("trend"), h("p", { class: "panel-quote" }, e.impact ? emphasize(e.impact) : e.description || ""))];
+  }
+  return h("article", { class: "hl", style: "--h:" + entryHue(e) + ";--i:" + i },
+    h("div", { class: "hl-tab" }, fmt(e.date, { month: "short", year: "numeric" }).replace(".", "")),
+    h("div", { class: "hl-tags" }, (e.tags || []).map((t) => h("span", { class: "chip" }, t))),
+    h("p", { class: "hl-text" },
+      h("button", { class: "stretch", type: "button", onclick: () => openEntry(e.id) }, h("strong", null, e.title)),
+      e.description ? " " + e.description : ""),
+    h("div", { class: "hl-panels" }, panels));
+}
+
+/* ===== Filters + explore section ================================== */
+const F = { q: "", from: PERIOD.from, to: PERIOD.to, status: "all", tags: new Set() };
+let VIEW = "timeline";
+const refs = {};
+function filtered() {
+  const q = norm(F.q).trim();
+  return ENTRIES.filter((e) => {
+    if (e.date < F.from || e.date > F.to) return false;
+    if (F.status === "stable" && e.status === "draft") return false;
+    if (F.status === "draft" && e.status !== "draft") return false;
+    if (F.tags.size && !(e.tags || []).some((t) => F.tags.has(t))) return false;
+    if (q) {
+      const hay = norm([e.title, e.description, e.impact, e.notes, (e.tags || []).join(" ")].join(" "));
+      if (!q.split(/\s+/).every((w) => hay.includes(w))) return false;
+    }
+    return true;
+  });
+}
+function isFiltered() { return !!(F.q || F.tags.size || F.status !== "all" || F.from !== PERIOD.from || F.to !== PERIOD.to); }
+function renderExplore() {
+  const tabBtn = (id, label) => h("button", { class: "tab", role: "tab", id: "tab-" + id, type: "button", "aria-controls": "panel-" + id, "aria-selected": String(VIEW === id), tabindex: VIEW === id ? "0" : "-1", onclick: () => setView(id), onkeydown: tabKeys }, label);
+  refs.search = h("input", { type: "search", placeholder: L.search, "aria-label": L.searchLabel, oninput: (ev) => { F.q = ev.target.value; update(); } });
+  refs.from = h("input", { type: "date", id: "f-from", min: PERIOD.from, max: PERIOD.to, value: F.from, onchange: (ev) => { F.from = ev.target.value || PERIOD.from; update(); } });
+  refs.to = h("input", { type: "date", id: "f-to", min: PERIOD.from, max: PERIOD.to, value: F.to, onchange: (ev) => { F.to = ev.target.value || PERIOD.to; update(); } });
+  refs.seg = ["all", "stable", "draft"].map((k) => h("button", { type: "button", "aria-pressed": String(F.status === k), onclick: () => { F.status = k; update(); } }, { all: L.stAll, stable: L.stStable, draft: L.stDraft }[k]));
+  refs.tagBtns = TAGS.map((t) => h("button", { class: "chip", type: "button", style: "--h:" + hueOf(t), "aria-pressed": "false", "data-tag": t, onclick: () => { F.tags.has(t) ? F.tags.delete(t) : F.tags.add(t); update(); } }, icon("check"), t));
+  refs.count = h("span", { class: "f-count", "aria-live": "polite" });
+  refs.clear = h("button", { class: "linkbtn", type: "button", onclick: clearFilters }, L.clear);
+  refs.timeline = h("div", { id: "panel-timeline", role: "tabpanel", "aria-labelledby": "tab-timeline" });
+  refs.graph = h("div", { id: "panel-graph", role: "tabpanel", "aria-labelledby": "tab-graph", hidden: true });
+  return h("section", { class: "wrap sec", "aria-labelledby": "h-all" },
+    h("div", { class: "sec-head" }, h("h2", { id: "h-all" }, L.all),
+      h("div", { class: "tabs", role: "tablist", "aria-label": L.all }, tabBtn("timeline", L.tabTimeline), tabBtn("graph", L.tabGraph))),
+    h("div", { class: "filters", role: "search" },
+      h("div", { class: "f-row" },
+        h("div", { class: "field f-search" }, icon("search"), refs.search),
+        h("div", { class: "field" }, h("label", { for: "f-from" }, L.from), refs.from),
+        h("div", { class: "field" }, h("label", { for: "f-to" }, L.to), refs.to),
+        h("div", { class: "seg", role: "group", "aria-label": L.status }, refs.seg)),
+      TAGS.length ? h("div", { class: "tagf", role: "group", "aria-label": L.tags }, refs.tagBtns) : null,
+      h("div", { class: "f-foot" }, h("span", null, refs.count, h("span", { class: "tab-note" }, " · " + L.tabNote)), refs.clear)),
+    refs.timeline, refs.graph);
+}
+function tabKeys(ev) {
+  if (ev.key !== "ArrowRight" && ev.key !== "ArrowLeft") return;
+  const next = VIEW === "timeline" ? "graph" : "timeline";
+  setView(next); document.getElementById("tab-" + next).focus();
+}
+function setView(v) {
+  VIEW = v;
+  ["timeline", "graph"].forEach((k) => {
+    const b = document.getElementById("tab-" + k);
+    b.setAttribute("aria-selected", String(k === v)); b.tabIndex = k === v ? 0 : -1;
+  });
+  refs.timeline.hidden = v !== "timeline"; refs.graph.hidden = v !== "graph";
+  update();
+}
+function clearFilters() {
+  F.q = ""; F.from = PERIOD.from; F.to = PERIOD.to; F.status = "all"; F.tags.clear();
+  refs.search.value = ""; refs.from.value = F.from; refs.to.value = F.to;
+  update();
+}
+function update() {
+  const list = filtered();
+  refs.seg.forEach((b, i) => b.setAttribute("aria-pressed", String(["all", "stable", "draft"][i] === F.status)));
+  refs.tagBtns.forEach((b) => b.setAttribute("aria-pressed", String(F.tags.has(b.dataset.tag))));
+  refs.count.textContent = L.count(list.length, ENTRIES.length);
+  refs.clear.disabled = !isFiltered();
+  if (VIEW === "timeline") renderTimeline(list); else renderGraph(list);
+}
+
+/* ===== Timeline (chronological: the period reads as a story) ====== */
+function monthsBetween(from, to) {
+  const out = []; let d = parseDate(from.slice(0, 7) + "-01"); const end = parseDate(to.slice(0, 7) + "-01");
+  while (d <= end && out.length < 240) { out.push(d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0")); d = new Date(d.getFullYear(), d.getMonth() + 1, 1); }
+  return out;
+}
+function renderTimeline(list) {
+  const root = refs.timeline; root.textContent = "";
+  if (isFiltered()) root.appendChild(h("p", { class: "print-only" }, L.count(list.length, ENTRIES.length) + " (" + L.filtersActive + ")"));
+  if (!list.length) {
+    root.appendChild(h("div", { class: "empty-filter" }, h("p", null, h("strong", null, L.noMatch)), h("p", null, L.noMatchHint),
+      h("p", null, h("button", { class: "btn ghost small", type: "button", onclick: clearFilters }, L.clear))));
+    return;
+  }
+  const byMonth = new Map();
+  list.forEach((e) => { const k = monthKey(e.date); if (!byMonth.has(k)) byMonth.set(k, []); byMonth.get(k).push(e); });
+  const from = F.from > PERIOD.from ? F.from : PERIOD.from, to = F.to < PERIOD.to ? F.to : PERIOD.to;
+  monthsBetween(from, to).forEach((k) => {
+    const items = byMonth.get(k) || [];
+    const name = cap1(fmt(k + "-01", { month: "long", year: "numeric" }));
+    if (!items.length) {
+      root.appendChild(h("div", { class: "month gap" },
+        h("div", { class: "month-head" }, h("h3", { class: "month-name" }, name)),
+        h("div", { class: "gap-line" }, isFiltered() ? L.gapFiltered : L.gapEmpty)));
+      return;
+    }
+    root.appendChild(h("section", { class: "month", "aria-label": name },
+      h("div", { class: "month-head" }, h("h3", { class: "month-name" }, name), h("div", { class: "month-count" }, L.entries(items.length))),
+      h("div", { class: "cards" }, items.map(entryCard))));
+  });
+}
+function entryCard(e) {
+  const draft = e.status === "draft";
+  return h("article", { class: "card" + (draft ? " draft" : ""), style: "--h:" + entryHue(e) },
+    h("div", { class: "card-date", "aria-hidden": "true" },
+      h("span", { class: "card-day num" }, fmt(e.date, { day: "numeric" })),
+      h("span", { class: "card-wd" }, fmt(e.date, { weekday: "short" }).replace(".", ""))),
+    h("div", null,
+      h("h4", { class: "card-title", style: "margin:0" },
+        h("button", { class: "stretch", type: "button", onclick: () => openEntry(e.id), "aria-label": e.title + ", " + fmt(e.date, { day: "numeric", month: "long" }) + (draft ? ", " + L.draft : "") }, e.title)),
+      e.description ? h("p", { class: "card-desc" }, e.description) : null,
+      e.impact ? h("p", { class: "card-impact" }, icon("trend"), h("span", null, emphasize(e.impact)))
+               : h("p", { class: "card-impact none" }, L.noImpact),
+      h("div", { class: "card-meta" },
+        draft ? h("span", { class: "badge-draft" }, icon("pencil"), L.draft) : null,
+        (e.tags || []).map((t) => h("span", { class: "chip", style: "--h:" + hueOf(t) }, t)))));
+}
+
+/* ===== Graph: deterministic force layout, hand-rolled SVG ========= */
+function rng(seed) { return () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+function layout(nodes, edges) {
+  const rand = rng(42);
+  const hubs = nodes.filter((n) => n.kind === "tag");
+  hubs.forEach((n, i) => { const a = (i / Math.max(1, hubs.length)) * Math.PI * 2; n.x = Math.cos(a) * 220; n.y = Math.sin(a) * 160; });
+  const byId = new Map(nodes.map((n) => [n.id, n]));
+  nodes.forEach((n) => {
+    if (n.kind === "tag") return;
+    const hub = byId.get("tag:" + (n.e.tags || [])[0]);
+    n.x = (hub ? hub.x : 0) + (rand() - 0.5) * 120; n.y = (hub ? hub.y : 0) + (rand() - 0.5) * 120;
+  });
+  nodes.forEach((n) => { n.vx = 0; n.vy = 0; });
+  const ITER = 420;
+  for (let it = 0; it < ITER; it++) {
+    const alpha = 1 - it / ITER;
+    for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+      const a = nodes[i], b = nodes[j];
+      let dx = b.x - a.x, dy = b.y - a.y, d2 = dx * dx + dy * dy;
+      if (d2 < 0.01) { dx = rand() - 0.5; dy = rand() - 0.5; d2 = 0.5; }
+      const k = (a.kind === "tag" && b.kind === "tag" ? 9000 : a.kind === "tag" || b.kind === "tag" ? 3200 : 2200);
+      const f = (k * alpha) / d2, d = Math.sqrt(d2);
+      a.vx -= (dx / d) * f; a.vy -= (dy / d) * f; b.vx += (dx / d) * f; b.vy += (dy / d) * f;
+    }
+    edges.forEach((ed) => {
+      const a = byId.get(ed.a), b = byId.get(ed.b);
+      const dx = b.x - a.x, dy = b.y - a.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+      const len = ed.kind === "link" ? 90 : 105;
+      const f = (d - len) * 0.06 * alpha;
+      a.vx += (dx / d) * f; a.vy += (dy / d) * f; b.vx -= (dx / d) * f; b.vy -= (dy / d) * f;
+    });
+    nodes.forEach((n) => {
+      n.vx -= n.x * 0.012 * alpha; n.vy -= n.y * 0.016 * alpha;
+      n.vx *= 0.55; n.vy *= 0.55;
+      n.x += Math.max(-30, Math.min(30, n.vx)); n.y += Math.max(-30, Math.min(30, n.vy));
+    });
+  }
+}
+function renderGraph(list) {
+  const root = refs.graph; root.textContent = "";
+  if (!list.length) { root.appendChild(h("div", { class: "empty-filter" }, h("p", null, h("strong", null, L.noMatch)), h("p", null, L.noMatchHint))); return; }
+  const ids = new Set(list.map((e) => e.id));
+  const usedTags = [...new Set(list.flatMap((e) => e.tags || []))].sort();
+  const nodes = usedTags.map((t) => ({ id: "tag:" + t, kind: "tag", tag: t })).concat(list.map((e) => ({ id: e.id, kind: "entry", e })));
+  const edges = [];
+  list.forEach((e) => {
+    (e.tags || []).forEach((t) => edges.push({ a: e.id, b: "tag:" + t, kind: "tag" }));
+    (e.links || []).forEach((t) => { if (ids.has(t) && t !== e.id) edges.push({ a: e.id, b: t, kind: "link" }); });
+  });
+  layout(nodes, edges);
+  const byId = new Map(nodes.map((n) => [n.id, n]));
+  const nbr = new Map(nodes.map((n) => [n.id, new Set([n.id])]));
+  edges.forEach((ed) => { nbr.get(ed.a).add(ed.b); nbr.get(ed.b).add(ed.a); });
+  // Fit the layout to the box in screen pixels, so text stays at its real size on every width.
+  const w = Math.max(320, (root.clientWidth || 900) - 2), hh = Math.round(Math.min(680, Math.max(440, window.innerHeight * 0.66)));
+  const padX = w < 560 ? 64 : 120, padY = 46;
+  const xs = nodes.map((n) => n.x), ys = nodes.map((n) => n.y);
+  const x0 = Math.min(...xs), y0 = Math.min(...ys), rx = Math.max(1, Math.max(...xs) - x0), ry = Math.max(1, Math.max(...ys) - y0);
+  let sx = (w - 2 * padX) / rx, sy = (hh - 2 * padY) / ry;
+  sx = Math.min(sx, sy * 1.8); sy = Math.min(sy, sx * 1.8);
+  const ox = (w - rx * sx) / 2, oy = (hh - ry * sy) / 2;
+  nodes.forEach((n) => { n.x = ox + (n.x - x0) * sx; n.y = oy + (n.y - y0) * sy; });
+  const minX = 0;
+
+  const svg = s("svg", { class: list.length <= 8 && w >= 560 ? "labels" : null, viewBox: "0 0 " + w + " " + hh, role: "group", "aria-label": L.tabGraph, style: "height:" + hh + "px" });
+  const defs = s("defs");
+  const marker = s("marker", { id: "arrow", viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto-start-reverse" });
+  marker.appendChild(s("path", { d: "M0 0 10 5 0 10z", fill: "var(--ink)" })); defs.appendChild(marker); svg.appendChild(defs);
+  const gE = s("g"), gN = s("g"); svg.appendChild(gE); svg.appendChild(gN);
+  const edgeEls = edges.map((ed) => {
+    const a = byId.get(ed.a), b = byId.get(ed.b);
+    let el;
+    if (ed.kind === "link") {
+      const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2, dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 1;
+      const cx = mx - (dy / d) * d * 0.22, cy = my + (dx / d) * d * 0.22;
+      const ex = b.x - ((b.x - cx) / Math.hypot(b.x - cx, b.y - cy)) * 13, ey = b.y - ((b.y - cy) / Math.hypot(b.x - cx, b.y - cy)) * 13;
+      el = s("path", { class: "g-link", d: "M" + a.x + " " + a.y + " Q" + cx + " " + cy + " " + ex + " " + ey, "marker-end": "url(#arrow)" });
+    } else el = s("line", { class: "g-edge", x1: a.x, y1: a.y, x2: b.x, y2: b.y });
+    el._ed = ed; gE.appendChild(el); return el;
+  });
+  const nodeEls = nodes.map((n) => {
+    const g = s("g", { class: "g-node" + (n.kind === "tag" ? " g-hub" : ""), transform: "translate(" + n.x.toFixed(1) + " " + n.y.toFixed(1) + ")", tabindex: "0", role: "button" });
+    if (n.kind === "tag") {
+      const hue = hueOf(n.tag), wd = n.tag.length * 7.6 + 34;
+      const on = F.tags.has(n.tag);
+      g.setAttribute("aria-label", L.hubLabel(n.tag, on)); g.setAttribute("aria-pressed", String(on)); g.dataset.tag = n.tag;
+      const toggle = () => {
+        if (on) F.tags.delete(n.tag); else F.tags.add(n.tag);
+        update();
+        const back = refs.graph.querySelector('.g-hub[data-tag="' + CSS.escape(n.tag) + '"]');
+        if (back) back.focus();
+      };
+      g.addEventListener("click", toggle);
+      g.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); toggle(); } });
+      g.appendChild(s("rect", { class: "g-ring", x: -wd / 2 - 4, y: -19, width: wd + 8, height: 38, rx: 19 }));
+      g.appendChild(s("rect", { x: -wd / 2, y: -15, width: wd, height: 30, rx: 15, fill: "oklch(var(--chip-L) var(--chip-C) " + hue + ")", stroke: "oklch(0.6 0.08 " + hue + ")" }));
+      g.appendChild(s("text", { "text-anchor": "middle", y: 4.5, fill: "oklch(var(--chip-ink-L) 0.08 " + hue + ")" }, "#" + n.tag));
+    } else {
+      const e = n.e, hue = entryHue(e), draft = e.status === "draft";
+      g.setAttribute("aria-label", e.title + ", " + fmt(e.date, { day: "numeric", month: "long" }) + (draft ? ", " + L.draft : ""));
+      g.appendChild(s("circle", { class: "g-ring", r: 14 }));
+      g.appendChild(s("circle", { r: 9, fill: draft ? "var(--surface)" : "oklch(0.7 0.12 " + hue + ")", stroke: draft ? "var(--ink-2)" : "oklch(0.45 0.1 " + hue + ")", "stroke-width": 1.5, "stroke-dasharray": draft ? "3 2.5" : null }));
+      const maxCh = w < 560 ? 24 : 46;
+      const label = e.title.length > maxCh ? e.title.slice(0, maxCh - 1).trimEnd() + "…" : e.title;
+      g.appendChild(s("title", null, e.title));
+      const right = n.x < minX + w / 2;
+      g.appendChild(s("text", { class: "g-label", x: right ? 16 : -16, y: 4.5, "text-anchor": right ? "start" : "end" }, label));
+      g.addEventListener("click", () => openEntry(e.id));
+      g.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); openEntry(e.id); } });
+    }
+    g._n = n; gN.appendChild(g); return g;
+  });
+  const focusOn = (id) => {
+    if (!id) { svg.classList.remove("focus"); return; }
+    const set = nbr.get(id); svg.classList.add("focus");
+    nodeEls.forEach((g) => g.classList.toggle("on", set.has(g._n.id)));
+    edgeEls.forEach((el) => el.classList.toggle("on", el._ed.a === id || el._ed.b === id));
+  };
+  nodeEls.forEach((g) => {
+    g.addEventListener("mouseenter", () => focusOn(g._n.id)); g.addEventListener("mouseleave", () => focusOn(null));
+    g.addEventListener("focus", () => focusOn(g._n.id)); g.addEventListener("blur", () => focusOn(null));
+  });
+  const leg = (svgEl, label) => h("span", null, svgEl, label);
+  const legLine = (cls, arrow) => { const v = s("svg", { viewBox: "0 0 34 12", "aria-hidden": "true" }); v.appendChild(s("line", { class: cls, x1: 2, y1: 6, x2: arrow ? 28 : 32, y2: 6, "marker-end": arrow ? "url(#arrow)" : null })); return v; };
+  const legDot = () => { const v = s("svg", { viewBox: "0 0 34 12", "aria-hidden": "true" }); v.appendChild(s("circle", { cx: 17, cy: 6, r: 5, fill: "var(--surface)", stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": "3 2.5" })); return v; };
+  root.appendChild(h("div", { class: "graph-wrap" }, svg,
+    h("div", { class: "legend" }, leg(legLine("g-edge"), L.legendTag), leg(legLine("g-link", true), L.legendLink), leg(legDot(), L.legendDraft),
+      h("span", { class: "tab-note", style: "margin-left:auto" }, L.graphHint))));
+}
+
+/* ===== Safe Markdown subset → DOM nodes (never innerHTML) ========= */
+function safeUrl(u) { return /^(https?:|mailto:)/i.test(u) ? u : null; }
+function resolveEntryLink(from, target) {
+  if (!/\.md$/i.test(target)) return null;
+  const parts = target.startsWith("/") ? [] : from.path.split("/").slice(0, -1);
+  target.replace(/^\//, "").split("/").forEach((p) => { if (p === "..") parts.pop(); else if (p && p !== ".") parts.push(p); });
+  const id = parts.join("/").replace(/\.md$/i, "");
+  return BY_ID.has(id) ? id : null;
+}
+function inline(text, entry) {
+  const out = []; const re = /\[([^\]]+)\]\(([^)\s]+)\)|\*\*([^*]+)\*\*|__([^_]+)__|\*([^*\s][^*]*)\*|_([^_\s][^_]*)_|`([^`]+)`/g;
+  let last = 0, m;
+  while ((m = re.exec(text))) {
+    out.push(text.slice(last, m.index)); last = re.lastIndex;
+    if (m[1] != null) {
+      const id = resolveEntryLink(entry, m[2]), url = safeUrl(m[2]);
+      if (id) out.push(h("a", { href: "#", onclick: (ev) => { ev.preventDefault(); openEntry(id); } }, m[1]));
+      else if (url) out.push(h("a", { href: url, target: "_blank", rel: "noopener noreferrer" }, m[1]));
+      else out.push(m[1]);
+    } else if (m[3] != null || m[4] != null) out.push(h("strong", null, inline(m[3] || m[4], entry)));
+    else if (m[5] != null || m[6] != null) out.push(h("em", null, m[5] || m[6]));
+    else out.push(h("code", null, m[7]));
+  }
+  out.push(text.slice(last));
+  return out;
+}
+function markdown(src, entry) {
+  const box = h("div", { class: "md" });
+  const lines = String(src || "").replace(/\r/g, "").split("\n");
+  let para = [], list = null;
+  const flush = () => { if (para.length) box.appendChild(h("p", null, inline(para.join(" "), entry))); para = []; };
+  lines.forEach((raw) => {
+    const line = raw.trim();
+    const li = line.match(/^([-*+]|\d+[.)])\s+(.*)$/);
+    if (li) {
+      flush();
+      const ordered = /\d/.test(li[1]);
+      if (!list || list.ordered !== ordered) { list = { el: h(ordered ? "ol" : "ul"), ordered }; box.appendChild(list.el); }
+      list.el.appendChild(h("li", null, inline(li[2], entry)));
+      return;
+    }
+    if (!line) { flush(); list = null; return; }
+    list = null;
+    para.push(line.replace(/^#{1,6}\s+/, "").replace(/^>\s?/, ""));
+  });
+  flush();
+  return box;
+}
+
+/* ===== Detail drawer ============================================== */
+let lastFocus = null;
+function openEntry(id) {
+  const e = BY_ID.get(id); if (!e) return;
+  if (!drawer.open) lastFocus = document.activeElement;
+  drawer.textContent = "";
+  const hue = entryHue(e), draft = e.status === "draft";
+  const linkBtn = (rid) => { const r = BY_ID.get(rid); return r ? h("button", { type: "button", onclick: () => openEntry(rid) }, h("strong", null, r.title), h("small", null, fmt(r.date, { day: "numeric", month: "long", year: "numeric" }))) : null; };
+  const outL = (e.links || []).filter((x) => BY_ID.has(x)), inL = (BACKLINKS.get(e.id) || []).filter((x) => !outL.includes(x));
+  const sources = (e.sources || []).filter(Boolean);
+  append(drawer, [
+    h("div", { class: "d-bar" },
+      h("span", { class: "date" }, fmt(e.date, { weekday: "long", day: "numeric", month: "long", year: "numeric" })),
+      h("button", { class: "iconbtn", type: "button", "aria-label": L.close, onclick: () => drawer.close() }, icon("close"))),
+    h("div", { class: "d-body" },
+      h("div", null,
+        h("div", { class: "d-tags" }, draft ? h("span", { class: "badge-draft" }, icon("pencil"), L.draft) : null, (e.tags || []).map((t) => h("span", { class: "chip", style: "--h:" + hueOf(t) }, t))),
+        h("h2", { class: "d-title", id: "d-title" }, e.title),
+        e.description ? h("p", { class: "d-desc" }, e.description) : null),
+      h("section", { class: "d-sec d-impact", style: "--h:" + hue },
+        h("h3", null, L.impact),
+        e.impact ? h("p", null, emphasize(e.impact)) : h("p", { style: "font-style:italic;opacity:.8" }, L.noImpact)),
+      e.notes && e.notes.trim() ? h("section", { class: "d-sec d-notes" }, h("h3", null, L.notes), markdown(e.notes, e)) : null,
+      sources.length ? h("section", { class: "d-sec d-sources" }, h("h3", null, L.sources),
+        h("ul", { class: "src" }, sources.map((src) => {
+          const url = src.resource && safeUrl(src.resource);
+          const meta = [src.author ? L.by + " " + src.author : null, src.last_modified ? L.updated + " " + fmt(src.last_modified, { day: "numeric", month: "short", year: "numeric" }) : null].filter(Boolean).join(" · ");
+          return h("li", null,
+            url ? h("a", { href: url, target: "_blank", rel: "noopener noreferrer" }, src.title || url, icon("external"), h("span", { class: "sr-only" }, " (" + L.open + ")"))
+                : h("span", { class: "src-t" }, src.title || ""),
+            meta ? h("div", { class: "src-m" }, meta) : null);
+        }))) : null,
+      outL.length || inL.length ? h("section", { class: "d-sec" }, h("h3", null, L.related),
+        h("div", { class: "rel" }, outL.map(linkBtn), inL.map(linkBtn))) : null),
+  ]);
+  if (!drawer.open) drawer.showModal();
+  drawer.scrollTop = 0;
+  drawer.querySelector(".iconbtn").focus();
+}
+drawer.addEventListener("click", (ev) => {
+  if (ev.target !== drawer) return;
+  const r = drawer.getBoundingClientRect();
+  if (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom) drawer.close();
+});
+drawer.addEventListener("close", () => { if (lastFocus && document.contains(lastFocus)) lastFocus.focus(); });
+
+/* ===== Presentation mode ========================================== */
+function setPresent(on) {
+  document.body.classList.toggle("present", on);
+  document.getElementById("exit-present").hidden = !on;
+  if (on) window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+}
+document.addEventListener("keydown", (ev) => {
+  if (ev.key === "Escape" && document.body.classList.contains("present") && !drawer.open) setPresent(false);
+});
+
+/* ===== Empty state (template opened raw) ========================== */
+function renderEmptyPage() {
+  app.appendChild(h("main", { class: "empty-page" },
+    h("div", { class: "empty-card" },
+      h("div", { class: "brand", style: "margin-bottom:28px" }, brandMark(), "brag doc"),
+      h("h1", null, L.emptyTitle),
+      h("p", null, L.emptyText),
+      h("code", null, "python scripts/brag.py viz <bundle> --lang " + (L === I18N.en ? "en" : "pt-BR")))));
+}
+
+/* ===== Init ======================================================= */
+document.title = (L === I18N.en ? "Brag document · " : "Brag document · ") + fmt(PERIOD.from, { month: "short", year: "numeric" }) + " – " + fmt(PERIOD.to, { month: "short", year: "numeric" });
+renderPage();
+update();
+window.addEventListener("beforeprint", () => { if (VIEW !== "timeline") renderTimeline(filtered()); });
+let rsz = 0, lastW = innerWidth;
+window.addEventListener("resize", () => { clearTimeout(rsz); rsz = setTimeout(() => { if (VIEW === "graph" && innerWidth !== lastW) { lastW = innerWidth; update(); } }, 150); });
+})();
+</script>
+</body>
+</html>

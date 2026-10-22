@@ -10,6 +10,7 @@ An Agent Skill that helps you keep a **brag document**: a private, living log of
 - **Edit by conversation.** "Add the latency number to the API migration entry." The agent shows the change before writing it.
 - **Recall.** "Have I done something like this before?" You get facts from your own log, not pep talk.
 - **Period summary** for performance reviews and promotion cases, by theme or by your company's criteria.
+- **Interactive view.** A single local HTML page with a timeline, highlights with your impact numbers, filters, a links graph and a presentation mode. It opens in your browser and makes no network requests. Prefer plain text? Ask for the Markdown view instead. See [examples/view-example.html](examples/view-example.html), built from fictional data.
 - **One-way sync to Notion**, as a filterable showcase.
 
 ## Privacy
@@ -38,8 +39,6 @@ The helper script needs Python 3.8+ (standard library only). Local folders and g
 ## Development
 
 - `evals/` holds the test scenarios and a fictional bundle with sample source data.
-- `BACKLOG.md` lists planned features.
-
 ## License
 
 MIT
