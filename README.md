@@ -18,8 +18,8 @@ This skill started from Felipe Adamoli's class *Brag Document: registrando entre
 - **One-way sync to Notion**, as a filterable showcase.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/view-preview-dark.png">
-  <img src="docs/view-preview-light.png" alt="Interactive view of a fictional semester: headline 'Seu semestre em conquistas', four highlight cards with impact numbers, counters and the filterable timeline" width="760">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/view-dark-v0.1.0.png">
+  <img src="docs/view-light-v0.1.0.png" alt="Interactive view of a fictional semester: headline 'Seu semestre em conquistas', four highlight cards with impact numbers, counters and the filterable timeline" width="760">
 </picture>
 
 *The interactive view, built from fictional data. **[Open the live example](https://renanantonini.github.io/brag-document/examples/view-example.html)** to try the filters, the links graph and the presentation mode, or download [examples/view-example.html](examples/view-example.html) and open it locally.*
