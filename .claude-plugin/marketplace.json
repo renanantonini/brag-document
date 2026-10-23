@@ -4,6 +4,9 @@
     "name": "renanantonini",
     "url": "https://github.com/renanantonini"
   },
+  "metadata": {
+    "description": "The brag-document skill: keep a private log of your work accomplishments with a friendly 15-minute weekly check-in."
+  },
   "plugins": [
     {
       "name": "brag-document",
