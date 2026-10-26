@@ -2,6 +2,12 @@
 
 All notable changes to this skill are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- **"X of Y" captions in the interactive view.** A highlight such as "0 de 11" keeps the whole sentence as its caption ("fase 3 com 0 de 11 itens entregues"), instead of cutting the count out and leaving "fase 3 com itens entregues".
+
 ## [0.2.1] - 2026-10-26
 
 ### Added

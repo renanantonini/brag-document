@@ -615,8 +615,9 @@ function metricOf(cl) {
     const left = (t.slice(0, index) + " " + t.slice(index + len)).replace(/\s{2,}/g, " ").trim();
     return (cl.caption ? cap1(cl.caption) : (left.split(/\s+/).length > 1 ? cap1(left) : cap1(t))) || cap1(t);
   };
+  // An "X of Y" count is tied to the noun after it ("0 de 11 itens entregues"); cutting it out breaks the sentence, so keep it whole.
   m = t.match(RE_XOFY);
-  if (m) return { value: m[0].trim(), caption: captionWithout(m.index, m[0].length), prio: 3 };
+  if (m) return { value: m[0].trim(), caption: cap1(cl.caption || t), prio: 3 };
   const best = candidates(t).sort((a, b) => b.prio - a.prio || a.index - b.index)[0];
   if (best) {
     let value = best.num;
