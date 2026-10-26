@@ -3,7 +3,7 @@ name: brag-document
 description: "Keeps a brag document: a private log of a person's work accomplishments and their impact, stored as local Markdown files in Open Knowledge Format. Runs a friendly 15-minute weekly check-in that gathers candidate items from connected sources (code, tasks, calendar, email, meeting transcripts), edits entries, recalls past wins with facts, writes period summaries for performance reviews, builds a local interactive view and syncs one-way to Notion. Privacy: only reads sources (its one write is an optional calendar reminder, on explicit request), stores a short summary plus a reference instead of raw email or transcript content, and adds nothing to the log without the user's confirmation. Use when the user mentions a brag document or brag doc, logging wins or accomplishments, a weekly review of their work, a self-review, promotion case, performance review or CV/LinkedIn update, feeling like an impostor or asking what they have achieved, or updating their work log."
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
 # Brag Document
@@ -39,7 +39,7 @@ Helps a person keep a living record of what they did and why it mattered, so tha
 | Summarize a period for a review, promotion, salary talk, CV or LinkedIn | [references/period-summary.md](references/period-summary.md) |
 | See the log as an interactive page or a simple Markdown view | [references/period-summary.md](references/period-summary.md), step 5 |
 | Publish to Notion | [references/notion-sync.md](references/notion-sync.md) |
-| Change settings, sources, tags or reminders | [references/setup.md](references/setup.md) |
+| Change settings, sources, tags or reminders, or see connection status | [references/setup.md](references/setup.md) |
 
 ## Every write to the bundle
 

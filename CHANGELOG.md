@@ -2,6 +2,20 @@
 
 All notable changes to this skill are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.2.1] - 2026-10-26
+
+### Added
+
+- **Connection status table.** Setup, a failing source, or a question like "how are my connections?" shows one row per source type with its status (ready, not responding, not connected, off), what it connects through, what it reads, and what to do next.
+
+### Fixed
+
+- **Highlight numbers in the interactive and Markdown views.**
+  - A number that names something is no longer read as a result: "fase 2", "sprint 14", "release 3.4", "versão 2", "phase", "step".
+  - "0 de 11" and "9 of 12" are recognized as one metric and take priority over a lone number.
+  - Time horizons such as "nos próximos 2 trimestres" and "over the next 3 months" are not highlighted.
+  - Bare numbers appear only when the impact has no better metric.
+
 ## [0.2.0] - 2026-10-26
 
 ### Added
@@ -46,5 +60,6 @@ First public release.
 - Nothing enters your log without your confirmation.
 - Entries keep a short summary plus a reference, never the content of email or transcripts.
 
+[0.2.1]: https://github.com/renanantonini/brag-document/releases/tag/v0.2.1
 [0.2.0]: https://github.com/renanantonini/brag-document/releases/tag/v0.2.0
 [0.1.0]: https://github.com/renanantonini/brag-document/releases/tag/v0.1.0

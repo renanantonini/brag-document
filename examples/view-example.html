@@ -402,7 +402,7 @@ body.present .hl-text { font-size: clamp(20px, 2.1vw, 24px); }
 <body>
 <div id="app"></div>
 <dialog class="drawer" id="drawer" aria-labelledby="d-title"></dialog>
-<script>window.BRAG = {"lang": "pt-BR", "period": {"from": "2026-04-21", "to": "2026-10-21"}, "generated_at": "2026-10-22", "tags": ["aprendizado", "colaboracao", "design-docs", "incidente", "lideranca", "mentoria", "projeto"], "entries": [{"id": "2026/06/2026-06-03-incidente-fila-pagamentos", "path": "2026/06/2026-06-03-incidente-fila-pagamentos.md", "title": "Resolvi incidente de fila travada em pagamentos", "date": "2026-06-03", "description": "Identifiquei um consumidor em loop que travava a fila de pagamentos e publiquei a correção em 40 minutos.", "impact": "Cerca de 2 mil pagamentos destravados no mesmo dia; adicionei alerta que evitou reincidência.", "tags": ["incidente"], "status": "stable", "sources": [{"resource": "https://example.atlassian.net/browse/INC-88", "title": "INC-88 Fila de pagamentos parada"}], "notes": "", "links": []}, {"id": "2026/07/2026-07-22-onboarding-dev-junior", "path": "2026/07/2026-07-22-onboarding-dev-junior.md", "title": "Onboarding de pessoa dev júnior no time", "date": "2026-07-22", "description": "Montei o plano de onboarding e fiz pareamento semanal com o Pedro nas primeiras 6 semanas; segui com 1:1s semanais em outubro.", "impact": "Pedro já pega tarefas sozinho.", "tags": ["mentoria"], "status": "stable", "sources": [{"title": "1:1 Ana / Pedro", "author": "Ana Souza", "last_modified": "2026-10-16"}], "notes": "", "links": []}, {"id": "2026/09/2026-09-18-adr-cache-catalogo", "path": "2026/09/2026-09-18-adr-cache-catalogo.md", "title": "ADR de cache para o catálogo", "date": "2026-09-18", "description": "Escrevi o ADR que definiu Redis como cache do catálogo e conduzi a discussão com três times.", "impact": "Decisão aprovada em uma reunião; padrão adotado depois pelo time de busca.", "tags": ["design-docs", "colaboracao"], "status": "stable", "sources": [{"resource": "https://git.example.com/platform/adr/pulls/12", "title": "ADR-0012: Cache do catálogo"}], "notes": "", "links": []}, {"id": "2026/10/2026-10-03-chaves-idempotencia-criacao-pagamentos", "path": "2026/10/2026-10-03-chaves-idempotencia-criacao-pagamentos.md", "title": "Chaves de idempotência na criação de pagamentos", "date": "2026-10-03", "description": "Implementei e lancei chaves de idempotência obrigatórias na criação de pagamentos, com testes e anúncio para a engenharia.", "impact": "Cobranças duplicadas caíram de ~30/semana para 0 na primeira semana.", "tags": ["projeto"], "status": "stable", "sources": [{"title": "PAY-301 Chaves de idempotência na criação de pagamentos"}, {"title": "PR #341 Idempotency keys for payment creation"}, {"title": "E-mail: No ar: idempotência na criação de pagamentos", "author": "Ana Souza", "last_modified": "2026-10-03"}], "notes": "", "links": []}, {"id": "2026/10/2026-10-08-tempestade-retries-timeout-provedor", "path": "2026/10/2026-10-08-tempestade-retries-timeout-provedor.md", "title": "Resolvi tempestade de retries no timeout do provedor (INC-97)", "date": "2026-10-08", "description": "Corrigi a tempestade de retries no timeout do provedor de pagamentos com backoff exponencial e jitter e conduzi o postmortem.", "impact": "Sem recorrência; backoff com jitter virou padrão no cliente HTTP compartilhado.", "tags": ["incidente", "lideranca"], "status": "stable", "sources": [{"title": "INC-97 Tempestade de retries no timeout do provedor de pagamentos"}, {"title": "Postmortem INC-97", "last_modified": "2026-10-09"}], "notes": "No postmortem expliquei a causa raiz (retries sem backoff multiplicaram a carga em 12x) e propus o padrão; o Bruno ficou com o follow-up.", "links": []}, {"id": "2026/10/2026-10-10-review-motor-regras-fraude", "path": "2026/10/2026-10-10-review-motor-regras-fraude.md", "title": "Review do refactor do motor de regras de fraude", "date": "2026-10-10", "description": "Revisei o refactor do motor de regras de fraude com 14 comentários e identifiquei uma regra que deixava passar reembolsos duplicados.", "impact": "Barrei uma regra que deixaria passar reembolsos duplicados.", "tags": ["colaboracao"], "status": "stable", "sources": [{"title": "PR #349 Refactor fraud rules engine"}], "notes": "", "links": []}, {"id": "2026/10/2026-10-10-tech-talk-idempotencia-pratica", "path": "2026/10/2026-10-10-tech-talk-idempotencia-pratica.md", "title": "Tech talk: idempotência na prática", "date": "2026-10-10", "description": "Organizei e apresentei uma tech talk interna sobre idempotência na prática.", "impact": "35 pessoas assistiram.", "tags": ["aprendizado", "colaboracao"], "status": "stable", "sources": [{"title": "Tech talk: idempotência na prática", "author": "Ana Souza", "last_modified": "2026-10-10"}], "notes": "", "links": []}, {"id": "2026/10/2026-10-16-export-csv-liquidacao-mensal", "path": "2026/10/2026-10-16-export-csv-liquidacao-mensal.md", "title": "Export da liquidação mensal em CSV para o financeiro", "date": "2026-10-16", "description": "Construí o export da liquidação mensal em CSV, que substituiu a planilha manual do financeiro.", "impact": "Economiza 1 dia de trabalho por mês no fechamento do financeiro.", "tags": ["projeto", "colaboracao"], "status": "stable", "sources": [{"title": "FIN-44 Exportar liquidação mensal em CSV para o financeiro"}, {"title": "PR #352 Monthly settlement CSV export"}, {"title": "E-mail: Obrigada pelo CSV de liquidação!", "author": "Carla Mendes", "last_modified": "2026-10-17"}], "notes": "", "links": []}, {"id": "2026/10/2026-10-21-ajudei-bruno-fluxo-refunds", "path": "2026/10/2026-10-21-ajudei-bruno-fluxo-refunds.md", "title": "Ajudei o Bruno a entender o fluxo de refunds", "date": "2026-10-21", "description": "Expliquei o fluxo de refunds para o Bruno e destravei a tarefa dele.", "impact": "Bruno destravou a tarefa no mesmo dia.", "tags": ["colaboracao", "mentoria"], "status": "stable", "sources": [], "notes": "", "links": []}], "redacted": false};</script>
+<script>window.BRAG = {"lang": "pt-BR", "period": {"from": "2026-04-21", "to": "2026-10-21"}, "generated_at": "2026-10-26", "tags": ["aprendizado", "colaboracao", "design-docs", "incidente", "lideranca", "mentoria", "projeto"], "entries": [{"id": "2026/06/2026-06-03-incidente-fila-pagamentos", "path": "2026/06/2026-06-03-incidente-fila-pagamentos.md", "title": "Resolvi incidente de fila travada em pagamentos", "date": "2026-06-03", "description": "Identifiquei um consumidor em loop que travava a fila de pagamentos e publiquei a correção em 40 minutos.", "impact": "Cerca de 2 mil pagamentos destravados no mesmo dia; adicionei alerta que evitou reincidência.", "tags": ["incidente"], "status": "stable", "sources": [{"resource": "https://example.atlassian.net/browse/INC-88", "title": "INC-88 Fila de pagamentos parada"}], "notes": "", "links": []}, {"id": "2026/07/2026-07-22-onboarding-dev-junior", "path": "2026/07/2026-07-22-onboarding-dev-junior.md", "title": "Onboarding de pessoa dev júnior no time", "date": "2026-07-22", "description": "Montei o plano de onboarding e fiz pareamento semanal com o Pedro nas primeiras 6 semanas; segui com 1:1s semanais em outubro.", "impact": "Pedro já pega tarefas sozinho.", "tags": ["mentoria"], "status": "stable", "sources": [{"title": "1:1 Ana / Pedro", "author": "Ana Souza", "last_modified": "2026-10-16"}], "notes": "", "links": []}, {"id": "2026/09/2026-09-18-adr-cache-catalogo", "path": "2026/09/2026-09-18-adr-cache-catalogo.md", "title": "ADR de cache para o catálogo", "date": "2026-09-18", "description": "Escrevi o ADR que definiu Redis como cache do catálogo e conduzi a discussão com três times.", "impact": "Decisão aprovada em uma reunião; padrão adotado depois pelo time de busca.", "tags": ["design-docs", "colaboracao"], "status": "stable", "sources": [{"resource": "https://git.example.com/platform/adr/pulls/12", "title": "ADR-0012: Cache do catálogo"}], "notes": "", "links": []}, {"id": "2026/10/2026-10-03-chaves-idempotencia-criacao-pagamentos", "path": "2026/10/2026-10-03-chaves-idempotencia-criacao-pagamentos.md", "title": "Chaves de idempotência na criação de pagamentos", "date": "2026-10-03", "description": "Implementei e lancei chaves de idempotência obrigatórias na criação de pagamentos, com testes e anúncio para a engenharia.", "impact": "Cobranças duplicadas caíram de ~30/semana para 0 na primeira semana.", "tags": ["projeto"], "status": "stable", "sources": [{"title": "PAY-301 Chaves de idempotência na criação de pagamentos"}, {"title": "PR #341 Idempotency keys for payment creation"}, {"title": "E-mail: No ar: idempotência na criação de pagamentos", "author": "Ana Souza", "last_modified": "2026-10-03"}], "notes": "", "links": []}, {"id": "2026/10/2026-10-08-tempestade-retries-timeout-provedor", "path": "2026/10/2026-10-08-tempestade-retries-timeout-provedor.md", "title": "Resolvi tempestade de retries no timeout do provedor (INC-97)", "date": "2026-10-08", "description": "Corrigi a tempestade de retries no timeout do provedor de pagamentos com backoff exponencial e jitter e conduzi o postmortem.", "impact": "Sem recorrência; backoff com jitter virou padrão no cliente HTTP compartilhado.", "tags": ["incidente", "lideranca"], "status": "stable", "sources": [{"title": "INC-97 Tempestade de retries no timeout do provedor de pagamentos"}, {"title": "Postmortem INC-97", "last_modified": "2026-10-09"}], "notes": "No postmortem expliquei a causa raiz (retries sem backoff multiplicaram a carga em 12x) e propus o padrão; o Bruno ficou com o follow-up.", "links": []}, {"id": "2026/10/2026-10-10-review-motor-regras-fraude", "path": "2026/10/2026-10-10-review-motor-regras-fraude.md", "title": "Review do refactor do motor de regras de fraude", "date": "2026-10-10", "description": "Revisei o refactor do motor de regras de fraude com 14 comentários e identifiquei uma regra que deixava passar reembolsos duplicados.", "impact": "Barrei uma regra que deixaria passar reembolsos duplicados.", "tags": ["colaboracao"], "status": "stable", "sources": [{"title": "PR #349 Refactor fraud rules engine"}], "notes": "", "links": []}, {"id": "2026/10/2026-10-10-tech-talk-idempotencia-pratica", "path": "2026/10/2026-10-10-tech-talk-idempotencia-pratica.md", "title": "Tech talk: idempotência na prática", "date": "2026-10-10", "description": "Organizei e apresentei uma tech talk interna sobre idempotência na prática.", "impact": "35 pessoas assistiram.", "tags": ["aprendizado", "colaboracao"], "status": "stable", "sources": [{"title": "Tech talk: idempotência na prática", "author": "Ana Souza", "last_modified": "2026-10-10"}], "notes": "", "links": []}, {"id": "2026/10/2026-10-16-export-csv-liquidacao-mensal", "path": "2026/10/2026-10-16-export-csv-liquidacao-mensal.md", "title": "Export da liquidação mensal em CSV para o financeiro", "date": "2026-10-16", "description": "Construí o export da liquidação mensal em CSV, que substituiu a planilha manual do financeiro.", "impact": "Economiza 1 dia de trabalho por mês no fechamento do financeiro.", "tags": ["projeto", "colaboracao"], "status": "stable", "sources": [{"title": "FIN-44 Exportar liquidação mensal em CSV para o financeiro"}, {"title": "PR #352 Monthly settlement CSV export"}, {"title": "E-mail: Obrigada pelo CSV de liquidação!", "author": "Carla Mendes", "last_modified": "2026-10-17"}], "notes": "", "links": []}, {"id": "2026/10/2026-10-21-ajudei-bruno-fluxo-refunds", "path": "2026/10/2026-10-21-ajudei-bruno-fluxo-refunds.md", "title": "Ajudei o Bruno a entender o fluxo de refunds", "date": "2026-10-21", "description": "Expliquei o fluxo de refunds para o Bruno e destravei a tarefa dele.", "impact": "Bruno destravou a tarefa no mesmo dia.", "tags": ["colaboracao", "mentoria"], "status": "stable", "sources": [], "notes": "", "links": []}], "redacted": false};</script>
 <script>
 (function () {
 "use strict";
@@ -563,11 +563,34 @@ const entryHue = (e) => hueOf((e.tags || [])[0]);
 /* ===== Impact numbers (never invent: only what is in the text) ===== */
 const PREFIX = "(cerca de|aproximadamente|aprox\\.?|quase|mais de|over|about|around|approx\\.?|nearly|almost|~|\\+)";
 const NUMBER = "(?:R\\$|US\\$|\\$|€|£)?\\s?\\d+(?:[.,]\\d+)*";
-const UNIT = "(?:\\s?(?:%|x\\b|×|mil\\b|milhões\\b|milhão\\b|mi\\b|bi\\b|k\\b|M\\b|thousand\\b|million\\b|horas?\\b|h\\b|min\\b|ms\\b|dias?\\b|days?\\b|semanas?\\b|weeks?\\b|meses\\b|months?\\b|pessoas\\b|people\\b))?(?:\\s?\\/\\s?\\p{L}+)?";
+const UNIT = "(?:\\s?(?:%|x\\b|×|mil\\b|milhões\\b|milhão\\b|mi\\b|bi\\b|k\\b|M\\b|thousand\\b|million\\b|horas?\\b|h\\b|min\\b|ms\\b|dias?\\b|days?\\b|semanas?\\b|weeks?\\b|meses\\b|months?\\b|trimestres?\\b|quarters?\\b|anos?\\b|years?\\b|pessoas\\b|people\\b|usuári[oa]s\\b|users\\b|clientes\\b|customers\\b))?(?:\\s?\\/\\s?\\p{L}+)?";
 const RE_FROMTO = new RegExp("\\b(?:de|from)\\s+(~?\\s?" + NUMBER + UNIT + ")\\s+(?:para|to)\\s+(~?\\s?" + NUMBER + UNIT + ")", "iu");
-const RE_NUM = new RegExp("(?:" + PREFIX + "\\s?)?(?<![\\p{L}\\d#\\-])(" + NUMBER + UNIT + ")", "iu");
+// "0 de 11", "3 of 5": a count against a total beats a lone number.
+const RE_XOFY = /(?<![\p{L}\d])(\d+(?:[.,]\d+)?)\s+(?:de|of|out of)\s+(\d+(?:[.,]\d+)?)(?![\d\p{L}])/iu;
+const RE_XOFY_G = new RegExp(RE_XOFY.source, "giu");
+const RE_CAND = new RegExp("(?:" + PREFIX + "\\s?)?(?<![\\p{L}\\d#\\-])(" + NUMBER + UNIT + ")", "giu");
+// A number right after these words names something (phase 2, sprint 14, v3), it does not measure it.
+const RE_ID_BEFORE = /\b(fases?|releases?|sprints?|vers(?:ão|ao|ões|oes)|versions?|etapas?|phases?|steps?|ondas?|waves?|ciclos?|cycles?|itens?|items?|tickets?|issues?|prs?|n[º°o]\.?|número|number)\s*$/iu;
+// "nos próximos 2 trimestres", "over the next 3 months": a time horizon, not a result.
+const RE_HORIZON_BEFORE = /\b(pr[oó]xim[oa]s?|next|following|upcoming|within|over the)\s*$/iu;
+const RE_TIME_UNIT = /(trimestres?|quarters?|meses|months?|semanas?|weeks?|anos?|years?|dias?|days?)\b/iu;
 const RE_ZERO = /\b(zero|nenhuma?)\b/iu;
-const RE_NUM_G = new RegExp("(?:" + PREFIX + "\\s?)?(?<![\\p{L}\\d#\\-])" + NUMBER + UNIT + "|\\bzero\\b", "giu");
+
+// Every number in a text that measures something, with a priority: 3 strong (%, x, money, from→to, X of Y), 2 with a unit, 1 bare.
+function candidates(t) {
+  const out = [];
+  for (const m of t.matchAll(RE_CAND)) {
+    const num = m[2].trim();
+    if (/^(19|20)\d\d$/.test(num)) continue;
+    const before = t.slice(0, m.index);
+    if (RE_ID_BEFORE.test(before)) continue;
+    if (RE_TIME_UNIT.test(num) && RE_HORIZON_BEFORE.test(before)) continue;
+    const strong = /[%x×$€£]|mil|milh|million|thousand/i.test(num);
+    const lead = m[0].length - m[0].trimStart().length;
+    out.push({ index: m.index + lead, text: m[0].trim(), prefix: (m[1] || "").toLowerCase(), num, prio: strong ? 3 : /^[\d.,\s]+$/.test(num) ? 1 : 2 });
+  }
+  return out;
+}
 
 function cap1(t) { t = t.trim().replace(/^[,;:\-–\s]+|[,;:\-–\s]+$/g, ""); return t ? t[0].toUpperCase() + t.slice(1) : t; }
 function clauses(text) {
@@ -587,18 +610,20 @@ function metricOf(cl) {
     const rest = (t.slice(0, m.index) + t.slice(m.index + m[0].length)).replace(/\s{2,}/g, " ");
     return { value: m[1].trim() + " → " + m[2].trim(), caption: cap1(cl.caption || rest), prio: 3 };
   }
-  m = t.match(RE_NUM);
-  if (m && !/^(19|20)\d\d$/.test(m[2])) {
-    const pre = (m[1] || "").toLowerCase();
-    let value = m[2].trim();
-    if (/^(cerca de|aproximadamente|aprox|about|around|approx|~)/.test(pre)) value = "~" + value;
-    else if (/^(mais de|over|\+)/.test(pre)) value = value + "+";
-    else if (/^(quase|nearly|almost)/.test(pre)) value = "~" + value;
-    // Caption = the clause without the number; a lone leftover word ("Assistiram") reads worse than the full sentence.
-    const left = (t.slice(0, m.index) + " " + t.slice(m.index + m[0].length)).replace(/\s{2,}/g, " ").trim();
-    const caption = cl.caption ? cap1(cl.caption) : (left.split(/\s+/).length > 1 ? cap1(left) : cap1(t));
-    const prio = /[%x×$€£]|mil|million|thousand/i.test(value) ? 3 : 2;
-    return { value, caption: caption || cap1(t), prio };
+  // Caption = the clause without the number; a lone leftover word ("Assistiram") reads worse than the full sentence.
+  const captionWithout = (index, len) => {
+    const left = (t.slice(0, index) + " " + t.slice(index + len)).replace(/\s{2,}/g, " ").trim();
+    return (cl.caption ? cap1(cl.caption) : (left.split(/\s+/).length > 1 ? cap1(left) : cap1(t))) || cap1(t);
+  };
+  m = t.match(RE_XOFY);
+  if (m) return { value: m[0].trim(), caption: captionWithout(m.index, m[0].length), prio: 3 };
+  const best = candidates(t).sort((a, b) => b.prio - a.prio || a.index - b.index)[0];
+  if (best) {
+    let value = best.num;
+    if (/^(cerca de|aproximadamente|aprox|about|around|approx|~)/.test(best.prefix)) value = "~" + value;
+    else if (/^(mais de|over|\+)/.test(best.prefix)) value = value + "+";
+    else if (/^(quase|nearly|almost)/.test(best.prefix)) value = "~" + value;
+    return { value, caption: captionWithout(best.index, best.text.length), prio: best.prio };
   }
   m = t.match(RE_ZERO);
   if (m && m.index === 0 && /^zero$/i.test(m[1])) return { value: cap1(m[1]), caption: cap1(t.slice(m[0].length)), prio: 1 };
@@ -610,7 +635,9 @@ function metricsOf(e) {
   const cls = clauses(e.impact);
   const found = [];
   cls.forEach((c, i) => { const m = metricOf(c); if (m) found.push(Object.assign(m, { i })); });
-  const top = found.slice().sort((a, b) => b.prio - a.prio || a.i - b.i).slice(0, 2).sort((a, b) => a.i - b.i);
+  // Bare numbers ("3 squads") only show when the impact has nothing better.
+  const usable = found.some((m) => m.prio >= 2) ? found.filter((m) => m.prio >= 2) : found;
+  const top = usable.slice().sort((a, b) => b.prio - a.prio || a.i - b.i).slice(0, 2).sort((a, b) => a.i - b.i);
   // A clause is covered when a metric panel shows it (a parenthetical metric also covers its outer clause).
   const covered = new Set();
   top.forEach((m) => { covered.add(m.i); if (cls[m.i].caption != null) covered.add(m.i + 1); });
@@ -621,10 +648,13 @@ function metricsOf(e) {
 // Impact sentence with every number in bold, built as nodes.
 function emphasize(text) {
   const out = []; let last = 0; text = String(text || "");
-  for (const m of text.matchAll(RE_NUM_G)) {
-    if (/^(19|20)\d\d$/.test(m[0].trim())) continue;
-    out.push(text.slice(last, m.index), h("strong", null, m[0])); last = m.index + m[0].length;
-  }
+  const spans = [...text.matchAll(RE_XOFY_G)].map((m) => ({ index: m.index, text: m[0] }));
+  candidates(text).forEach((c) => { if (!spans.some((s) => c.index < s.index + s.text.length && s.index < c.index + c.text.length)) spans.push(c); });
+  for (const m of text.matchAll(/\bzero\b/giu)) if (!spans.some((s) => m.index >= s.index && m.index < s.index + s.text.length)) spans.push({ index: m.index, text: m[0] });
+  spans.sort((a, b) => a.index - b.index).forEach((s) => {
+    if (s.index < last) return;
+    out.push(text.slice(last, s.index), h("strong", null, s.text)); last = s.index + s.text.length;
+  });
   out.push(text.slice(last));
   return out;
 }

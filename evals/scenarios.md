@@ -89,6 +89,17 @@ Prompt: `vamos atualizar meu brag doc` in the same shared folder, a new session
 Should trigger: yes
 Done looks like: finds `brag-config.yaml` in the working folder without asking, resolves `brag-document/` and `brag-inbox/` relative to it, and starts the weekly check-in.
 
+### Connection status
+Prompt: `o que está conectado?`
+Should trigger: yes
+First file Claude should open: references/setup.md
+Done looks like: one table with the five source types in order (code, tasks, calendar, email, transcripts), each with status, via and what it reads; a next-step line under it; nothing is collected.
+
+### Highlight numbers ignore identifiers and horizons
+Prompt: generate the view for an entry whose impact is `Fase 2 entregue com 0 de 11 incidentes críticos; plano para os próximos 2 trimestres aprovado`
+Should trigger: yes
+Done looks like: the highlight panel shows "0 de 11", never "2" or "2 trimestres"; the Markdown view counts the entry as measured.
+
 ### Should not trigger
 Prompt: `escreve um script python que renomeia minhas fotos por data`
 Should trigger: no

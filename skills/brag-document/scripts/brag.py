@@ -292,13 +292,35 @@ MD_TEXT = {
            "theme": "Theme", "count": "Accomplishments", "no_impact": "impact not logged yet",
            "footer": "Generated locally by brag-document on %s. The names you listed were hidden."},
 }
-DIGIT_RE = re.compile(r"\d")
+# Same rules as the page (assets/viz-template.html): identifiers and time horizons are not results.
+NUM_RE = re.compile(r"(?<![\w#-])\d+(?:[.,]\d+)*")
+XOFY_RE = re.compile(r"(?<![\w])\d+(?:[.,]\d+)?\s+(?:de|of|out of)\s+\d+(?:[.,]\d+)?(?!\w)", re.IGNORECASE)
+ID_BEFORE_RE = re.compile(r"\b(fases?|releases?|sprints?|vers(?:ão|ao|ões|oes)|versions?|etapas?|phases?|steps?|ondas?|waves?"
+                          r"|ciclos?|cycles?|itens?|items?|tickets?|issues?|prs?|n[º°o]\.?|número|number)\s*$", re.IGNORECASE)
+HORIZON_BEFORE_RE = re.compile(r"\b(pr[oó]xim[oa]s?|next|following|upcoming|within|over the)\s*$", re.IGNORECASE)
+TIME_AFTER_RE = re.compile(r"\s*(trimestres?|quarters?|meses|months?|semanas?|weeks?|anos?|years?|dias?|days?)\b", re.IGNORECASE)
+
+
+def has_metric(text):
+    """True when the impact text carries a measured number, not just a name like "fase 2" or a horizon."""
+    if not text:
+        return False
+    if XOFY_RE.search(text):
+        return True
+    for m in NUM_RE.finditer(text):
+        before, after = text[:m.start()], text[m.end():]
+        if re.fullmatch(r"(19|20)\d\d", m.group()) or ID_BEFORE_RE.search(before):
+            continue
+        if HORIZON_BEFORE_RE.search(before) and TIME_AFTER_RE.match(after):
+            continue
+        return True
+    return False
 
 
 def pick_highlights(entries, period, limit=5):
     """Up to `limit` stable entries with impact, one per quarter of the period first, to counter recency bias."""
     def score(e):
-        return (2 if DIGIT_RE.search(e["impact"]) else 1, e["date"])
+        return (2 if has_metric(e["impact"]) else 1, e["date"])
     pool = [e for e in entries if e["status"] == "stable" and e["impact"]]
     lo, hi = datetime.date.fromisoformat(period["from"]), datetime.date.fromisoformat(period["to"])
     span = max((hi - lo).days, 1)
@@ -317,7 +339,7 @@ def render_markdown(data):
     entries, period = data["entries"], data["period"]
     month = lambda d: "%s %s" % (t["months"][int(d[5:7]) - 1], d[:4])
     link = lambda e: "[%s](../%s)" % (e["title"], e["path"]) if e["path"] else e["title"]
-    measured = sum(1 for e in entries if e["impact"] and DIGIT_RE.search(e["impact"]))
+    measured = sum(1 for e in entries if has_metric(e["impact"]))
     drafts = sum(1 for e in entries if e["status"] == "draft")
     out = ["---", "type: brag-view",
            'title: "%s %s..%s"' % (t["title"], period["from"], period["to"]),

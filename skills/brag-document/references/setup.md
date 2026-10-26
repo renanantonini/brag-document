@@ -22,7 +22,7 @@ Done when `user_level` is set.
 
 **2. Folder.** Use the language they write in for conversation and entries (they can change it any time) and say so in passing. Propose `~/brag-document` as the bundle folder; a git repository or an Obsidian vault folder both work. Where only a shared folder persists, use the shared-folder layout instead and say in one line that everything will live in that folder. Done when `language` and `bundle_path` are set.
 
-**3. Sources and identity.** Show what discovery found as a short list: "I can read: your git repos, Jira, Google Calendar. Not connected: email, transcripts." Then state the privacy promise in these terms: "I only read these sources, never change anything in them, keep a short summary and a link instead of copying messages, and save nothing without your ok." Ask which to enable. Then fill `identity` (name, emails, usernames) and each source's settings from discovery, asking for each missing piece in its own short message: the name for `index.md`, the email their commits use, the folder where they keep code. When code is enabled, do not skip the commit email: without it the code recipe finds nothing. If the code folder holds no git repositories, say so and ask for another folder (in the shared-folder layout, only folders inside the shared one can be read); if there is none, keep code enabled only when a remote CLI or connector works, otherwise set it to `false`. Never ask for passwords or tokens. If a connector is missing or failing, say where to add or reconnect it (the app's connector settings) and move on. Done when each source type is `enabled: true` or `false` and `identity` is filled.
+**3. Sources and identity.** Show what discovery found as the connection status table (see "Connection status" below). Then state the privacy promise in these terms: "I only read these sources, never change anything in them, keep a short summary and a link instead of copying messages, and save nothing without your ok." Ask which to enable. Then fill `identity` (name, emails, usernames) and each source's settings from discovery, asking for each missing piece in its own short message: the name for `index.md`, the email their commits use, the folder where they keep code. When code is enabled, do not skip the commit email: without it the code recipe finds nothing. If the code folder holds no git repositories, say so and ask for another folder (in the shared-folder layout, only folders inside the shared one can be read); if there is none, keep code enabled only when a remote CLI or connector works, otherwise set it to `false`. Never ask for passwords or tokens. If a connector is missing or failing, say where to add or reconnect it (the app's connector settings) and move on. Done when each source type is `enabled: true` or `false` and `identity` is filled.
 
 **4. Tags.** Offer the base set, translated into their language, and let them rename, drop or add:
 
@@ -47,6 +47,22 @@ Done when `review_day`, `review_time` and `reminders` are set.
 **6. Create the bundle.** Create the `inbox_path` folder, and `bundle_path` with `index.md` (entry-format.md) and `.obsidian/app.json` (copy `assets/obsidian-app.json`; if the folder or one of its readable parents already has an `.obsidian/` folder, it is inside a vault: skip it and give the vault-settings tip from entry-format.md instead). Run `scripts/brag.py validate <bundle>` and then `scripts/brag.py log <bundle>`, so the `log.md` that `index.md` links to exists. If validation fails, fix what it names and return to Step 6. Done when it passes.
 
 **7. Offer the first check-in** covering the last 7 days.
+
+## Connection status
+
+One table, one row per source type, always in this order, so the person sees at a glance what the check-in can read. Use it at setup step 3, whenever they ask ("how are my connections?", "o que está conectado?"), and when a recipe fails during a check-in.
+
+| Source | Status | Via | What it reads |
+|---|---|---|---|
+| Code | ✅ Ready | git (2 repos), `gh` | Merged PRs, reviews |
+| Tasks | ✅ Ready | Jira connector | Resolved issues |
+| Calendar | ⚠️ Not responding | Google Calendar connector | Reconnect it in the app's connector settings |
+| Email | ⚪ Not connected | | Add an email connector to use it |
+| Transcripts | ⏸️ Off | Granola connector | Turned off by you |
+
+- **Statuses:** ✅ Ready (found and answering); ⚠️ Not responding (set up but failing; say where to reconnect); ⚪ Not connected (nothing found; say what would enable it); ⏸️ Off (available, but `enabled: false` in the config).
+- Check each source with the cheapest read the recipe allows (a version or "current user" call), never a full collection.
+- Write the table in the person's language. Under it, one line with what to do next, such as "Which ones should I turn on?" at setup.
 
 ## Shared-folder layout
 

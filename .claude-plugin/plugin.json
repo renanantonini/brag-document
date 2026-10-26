@@ -1,6 +1,6 @@
 {
   "name": "brag-document",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Keep a private brag document: a friendly 15-minute weekly check-in that turns your code, tasks, calendar, email and meeting transcripts into a log of accomplishments and impact.",
   "author": {
     "name": "renanantonini",

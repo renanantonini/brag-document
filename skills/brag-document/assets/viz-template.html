@@ -563,11 +563,34 @@ const entryHue = (e) => hueOf((e.tags || [])[0]);
 /* ===== Impact numbers (never invent: only what is in the text) ===== */
 const PREFIX = "(cerca de|aproximadamente|aprox\\.?|quase|mais de|over|about|around|approx\\.?|nearly|almost|~|\\+)";
 const NUMBER = "(?:R\\$|US\\$|\\$|€|£)?\\s?\\d+(?:[.,]\\d+)*";
-const UNIT = "(?:\\s?(?:%|x\\b|×|mil\\b|milhões\\b|milhão\\b|mi\\b|bi\\b|k\\b|M\\b|thousand\\b|million\\b|horas?\\b|h\\b|min\\b|ms\\b|dias?\\b|days?\\b|semanas?\\b|weeks?\\b|meses\\b|months?\\b|pessoas\\b|people\\b))?(?:\\s?\\/\\s?\\p{L}+)?";
+const UNIT = "(?:\\s?(?:%|x\\b|×|mil\\b|milhões\\b|milhão\\b|mi\\b|bi\\b|k\\b|M\\b|thousand\\b|million\\b|horas?\\b|h\\b|min\\b|ms\\b|dias?\\b|days?\\b|semanas?\\b|weeks?\\b|meses\\b|months?\\b|trimestres?\\b|quarters?\\b|anos?\\b|years?\\b|pessoas\\b|people\\b|usuári[oa]s\\b|users\\b|clientes\\b|customers\\b))?(?:\\s?\\/\\s?\\p{L}+)?";
 const RE_FROMTO = new RegExp("\\b(?:de|from)\\s+(~?\\s?" + NUMBER + UNIT + ")\\s+(?:para|to)\\s+(~?\\s?" + NUMBER + UNIT + ")", "iu");
-const RE_NUM = new RegExp("(?:" + PREFIX + "\\s?)?(?<![\\p{L}\\d#\\-])(" + NUMBER + UNIT + ")", "iu");
+// "0 de 11", "3 of 5": a count against a total beats a lone number.
+const RE_XOFY = /(?<![\p{L}\d])(\d+(?:[.,]\d+)?)\s+(?:de|of|out of)\s+(\d+(?:[.,]\d+)?)(?![\d\p{L}])/iu;
+const RE_XOFY_G = new RegExp(RE_XOFY.source, "giu");
+const RE_CAND = new RegExp("(?:" + PREFIX + "\\s?)?(?<![\\p{L}\\d#\\-])(" + NUMBER + UNIT + ")", "giu");
+// A number right after these words names something (phase 2, sprint 14, v3), it does not measure it.
+const RE_ID_BEFORE = /\b(fases?|releases?|sprints?|vers(?:ão|ao|ões|oes)|versions?|etapas?|phases?|steps?|ondas?|waves?|ciclos?|cycles?|itens?|items?|tickets?|issues?|prs?|n[º°o]\.?|número|number)\s*$/iu;
+// "nos próximos 2 trimestres", "over the next 3 months": a time horizon, not a result.
+const RE_HORIZON_BEFORE = /\b(pr[oó]xim[oa]s?|next|following|upcoming|within|over the)\s*$/iu;
+const RE_TIME_UNIT = /(trimestres?|quarters?|meses|months?|semanas?|weeks?|anos?|years?|dias?|days?)\b/iu;
 const RE_ZERO = /\b(zero|nenhuma?)\b/iu;
-const RE_NUM_G = new RegExp("(?:" + PREFIX + "\\s?)?(?<![\\p{L}\\d#\\-])" + NUMBER + UNIT + "|\\bzero\\b", "giu");
+
+// Every number in a text that measures something, with a priority: 3 strong (%, x, money, from→to, X of Y), 2 with a unit, 1 bare.
+function candidates(t) {
+  const out = [];
+  for (const m of t.matchAll(RE_CAND)) {
+    const num = m[2].trim();
+    if (/^(19|20)\d\d$/.test(num)) continue;
+    const before = t.slice(0, m.index);
+    if (RE_ID_BEFORE.test(before)) continue;
+    if (RE_TIME_UNIT.test(num) && RE_HORIZON_BEFORE.test(before)) continue;
+    const strong = /[%x×$€£]|mil|milh|million|thousand/i.test(num);
+    const lead = m[0].length - m[0].trimStart().length;
+    out.push({ index: m.index + lead, text: m[0].trim(), prefix: (m[1] || "").toLowerCase(), num, prio: strong ? 3 : /^[\d.,\s]+$/.test(num) ? 1 : 2 });
+  }
+  return out;
+}
 
 function cap1(t) { t = t.trim().replace(/^[,;:\-–\s]+|[,;:\-–\s]+$/g, ""); return t ? t[0].toUpperCase() + t.slice(1) : t; }
 function clauses(text) {
@@ -587,18 +610,20 @@ function metricOf(cl) {
     const rest = (t.slice(0, m.index) + t.slice(m.index + m[0].length)).replace(/\s{2,}/g, " ");
     return { value: m[1].trim() + " → " + m[2].trim(), caption: cap1(cl.caption || rest), prio: 3 };
   }
-  m = t.match(RE_NUM);
-  if (m && !/^(19|20)\d\d$/.test(m[2])) {
-    const pre = (m[1] || "").toLowerCase();
-    let value = m[2].trim();
-    if (/^(cerca de|aproximadamente|aprox|about|around|approx|~)/.test(pre)) value = "~" + value;
-    else if (/^(mais de|over|\+)/.test(pre)) value = value + "+";
-    else if (/^(quase|nearly|almost)/.test(pre)) value = "~" + value;
-    // Caption = the clause without the number; a lone leftover word ("Assistiram") reads worse than the full sentence.
-    const left = (t.slice(0, m.index) + " " + t.slice(m.index + m[0].length)).replace(/\s{2,}/g, " ").trim();
-    const caption = cl.caption ? cap1(cl.caption) : (left.split(/\s+/).length > 1 ? cap1(left) : cap1(t));
-    const prio = /[%x×$€£]|mil|million|thousand/i.test(value) ? 3 : 2;
-    return { value, caption: caption || cap1(t), prio };
+  // Caption = the clause without the number; a lone leftover word ("Assistiram") reads worse than the full sentence.
+  const captionWithout = (index, len) => {
+    const left = (t.slice(0, index) + " " + t.slice(index + len)).replace(/\s{2,}/g, " ").trim();
+    return (cl.caption ? cap1(cl.caption) : (left.split(/\s+/).length > 1 ? cap1(left) : cap1(t))) || cap1(t);
+  };
+  m = t.match(RE_XOFY);
+  if (m) return { value: m[0].trim(), caption: captionWithout(m.index, m[0].length), prio: 3 };
+  const best = candidates(t).sort((a, b) => b.prio - a.prio || a.index - b.index)[0];
+  if (best) {
+    let value = best.num;
+    if (/^(cerca de|aproximadamente|aprox|about|around|approx|~)/.test(best.prefix)) value = "~" + value;
+    else if (/^(mais de|over|\+)/.test(best.prefix)) value = value + "+";
+    else if (/^(quase|nearly|almost)/.test(best.prefix)) value = "~" + value;
+    return { value, caption: captionWithout(best.index, best.text.length), prio: best.prio };
   }
   m = t.match(RE_ZERO);
   if (m && m.index === 0 && /^zero$/i.test(m[1])) return { value: cap1(m[1]), caption: cap1(t.slice(m[0].length)), prio: 1 };
@@ -610,7 +635,9 @@ function metricsOf(e) {
   const cls = clauses(e.impact);
   const found = [];
   cls.forEach((c, i) => { const m = metricOf(c); if (m) found.push(Object.assign(m, { i })); });
-  const top = found.slice().sort((a, b) => b.prio - a.prio || a.i - b.i).slice(0, 2).sort((a, b) => a.i - b.i);
+  // Bare numbers ("3 squads") only show when the impact has nothing better.
+  const usable = found.some((m) => m.prio >= 2) ? found.filter((m) => m.prio >= 2) : found;
+  const top = usable.slice().sort((a, b) => b.prio - a.prio || a.i - b.i).slice(0, 2).sort((a, b) => a.i - b.i);
   // A clause is covered when a metric panel shows it (a parenthetical metric also covers its outer clause).
   const covered = new Set();
   top.forEach((m) => { covered.add(m.i); if (cls[m.i].caption != null) covered.add(m.i + 1); });
@@ -621,10 +648,13 @@ function metricsOf(e) {
 // Impact sentence with every number in bold, built as nodes.
 function emphasize(text) {
   const out = []; let last = 0; text = String(text || "");
-  for (const m of text.matchAll(RE_NUM_G)) {
-    if (/^(19|20)\d\d$/.test(m[0].trim())) continue;
-    out.push(text.slice(last, m.index), h("strong", null, m[0])); last = m.index + m[0].length;
-  }
+  const spans = [...text.matchAll(RE_XOFY_G)].map((m) => ({ index: m.index, text: m[0] }));
+  candidates(text).forEach((c) => { if (!spans.some((s) => c.index < s.index + s.text.length && s.index < c.index + c.text.length)) spans.push(c); });
+  for (const m of text.matchAll(/\bzero\b/giu)) if (!spans.some((s) => m.index >= s.index && m.index < s.index + s.text.length)) spans.push({ index: m.index, text: m[0] });
+  spans.sort((a, b) => a.index - b.index).forEach((s) => {
+    if (s.index < last) return;
+    out.push(text.slice(last, s.index), h("strong", null, s.text)); last = s.index + s.text.length;
+  });
   out.push(text.slice(last));
   return out;
 }

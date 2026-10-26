@@ -24,7 +24,7 @@ A connector that is configured but failing counts as not connected: name it and 
 
 If a source in config has a `fixture` path, read that file as the source's output instead of calling any tool; the test scenarios use this.
 
-Report what you found in one short list and let the person choose. If a recipe that worked before fails now, say which source failed, run the others, and offer to look at it after the check-in.
+Report what you found as the connection status table (setup.md, "Connection status") and let the person choose. If a recipe that worked before fails now, say which source failed, run the others, and offer to look at it after the check-in.
 
 ## Code
 
