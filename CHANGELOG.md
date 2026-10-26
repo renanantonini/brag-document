@@ -2,6 +2,22 @@
 
 All notable changes to this skill are listed here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.2.0] - 2026-10-26
+
+### Added
+
+- **Cowork support.** Some environments keep only a folder you share, such as Cowork or a VM with a mounted folder. There, the config (`brag-config.yaml`), the inbox (`brag-inbox/`) and the log (`brag-document/`) all live inside that folder. The skill looks for `brag-config.yaml` in the folder it works in when there is no `~/.brag-document/config.yaml`.
+- The marketplace has a description and the plugin has an icon, so `claude plugin validate --strict .` passes without warnings.
+
+### Changed
+
+- The config is looked up in this order: a file you name, then `brag-config.yaml` in the working folder, then `~/.brag-document/config.yaml`.
+- An empty `last_check_in` now starts the weekly check-in, the same as a gap of 7 or more days.
+- Setup asks you to confirm the timezone, since a VM often runs on UTC.
+- Setup creates the inbox folder along with the bundle.
+- The README always shows the light theme, which is the page's default.
+- The README credits Felipe Adamoli's Tech Leads Club class as the starting point.
+
 ## [0.1.0] - 2026-10-22
 
 First public release.
@@ -30,4 +46,5 @@ First public release.
 - Nothing enters your log without your confirmation.
 - Entries keep a short summary plus a reference, never the content of email or transcripts.
 
+[0.2.0]: https://github.com/renanantonini/brag-document/releases/tag/v0.2.0
 [0.1.0]: https://github.com/renanantonini/brag-document/releases/tag/v0.1.0

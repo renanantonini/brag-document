@@ -32,7 +32,7 @@ Your log lives in a local folder that you control. Treat it like any personal fi
 
 ## Storage
 
-A folder in [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) v0.2: one Markdown file per entry under `YYYY/MM/`, plus a generated `log.md`. The folder is ready to open as an Obsidian vault and works in any editor and in git. Settings live in `~/.brag-document/config.yaml`.
+A folder in [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) v0.2: one Markdown file per entry under `YYYY/MM/`, plus a generated `log.md`. The folder is ready to open as an Obsidian vault and works in any editor and in git. Settings live in `~/.brag-document/config.yaml`. In Cowork, where only a shared folder persists, the config, the inbox and the log all live inside that folder.
 
 ## Install
 

@@ -54,7 +54,7 @@ If the person stops mid-way, write the items already polished. Put every other c
 
 ## Inbox files
 
-In the config's `inbox_path` (default `~/.brag-document/inbox/`), named `YYYY-MM-DD-scheduled.md` or `YYYY-MM-DD-paused.md` by who wrote it. Plain Markdown, this exact shape:
+In the config's `inbox_path` (default `~/.brag-document/inbox/`; `brag-inbox/` in the shared-folder layout), named `YYYY-MM-DD-scheduled.md` or `YYYY-MM-DD-paused.md` by who wrote it. Plain Markdown, this exact shape:
 
 ```markdown
 period: 2026-10-01..2026-10-21

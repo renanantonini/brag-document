@@ -78,6 +78,17 @@ Should trigger: yes
 First file Claude should open: references/setup.md
 Done looks like: one question per message, a three-line how-to for beginners, privacy promise stated at the sources step, never asks for a password or token.
 
+### Cowork: first use in a shared folder
+Prompt: `quero começar um brag document` with no config anywhere, working only in a shared folder whose home folder does not persist
+Should trigger: yes
+First file Claude should open: references/setup.md
+Done looks like: says everything will live in the shared folder; creates `brag-config.yaml`, `brag-inbox/` and `brag-document/` there with relative paths; the bundle validates; code is offered only for repos inside the folder or via a connector.
+
+### Cowork: next session finds the config
+Prompt: `vamos atualizar meu brag doc` in the same shared folder, a new session
+Should trigger: yes
+Done looks like: finds `brag-config.yaml` in the working folder without asking, resolves `brag-document/` and `brag-inbox/` relative to it, and starts the weekly check-in.
+
 ### Should not trigger
 Prompt: `escreve um script python que renomeia minhas fotos por data`
 Should trigger: no

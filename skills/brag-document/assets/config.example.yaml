@@ -1,4 +1,5 @@
-# brag-document config. Lives at ~/.brag-document/config.yaml.
+# brag-document config. Lives at ~/.brag-document/config.yaml, or as brag-config.yaml
+# in a shared folder (Cowork); relative paths resolve from this file's folder.
 # Machine-specific settings only; the bundle itself stays portable.
 
 version: 1

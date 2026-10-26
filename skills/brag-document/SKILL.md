@@ -3,7 +3,7 @@ name: brag-document
 description: "Keeps a brag document: a private log of a person's work accomplishments and their impact, stored as local Markdown files in Open Knowledge Format. Runs a friendly 15-minute weekly check-in that gathers candidate items from connected sources (code, tasks, calendar, email, meeting transcripts), edits entries, recalls past wins with facts, writes period summaries for performance reviews, builds a local interactive view and syncs one-way to Notion. Privacy: only reads sources (its one write is an optional calendar reminder, on explicit request), stores a short summary plus a reference instead of raw email or transcript content, and adds nothing to the log without the user's confirmation. Use when the user mentions a brag document or brag doc, logging wins or accomplishments, a weekly review of their work, a self-review, promotion case, performance review or CV/LinkedIn update, feeling like an impostor or asking what they have achieved, or updating their work log."
 license: MIT
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Brag Document
@@ -27,9 +27,9 @@ Helps a person keep a living record of what they did and why it mattered, so tha
 
 ## Start of every run
 
-1. Read `~/.brag-document/config.yaml`, or the config file the person names. Relative paths inside a config resolve from the config file's folder. If there is no config, run first-time setup: [references/setup.md](references/setup.md).
-2. Without persistent local files (claude.ai, an ephemeral sandbox), say so in one line, ask for the period, work from connectors and pasted text, and return finished entries as Markdown for the person to save.
-3. Pick the mode from the table. For a general request ("update my brag doc", or just "brag doc"): if `last_check_in` is 7 or more days ago, start the weekly check-in; otherwise ask in one line whether they want to log a single win, edit, or something else.
+1. Find the config, first match wins: the file the person names; `brag-config.yaml` in the folder you work in (the working directory, or a folder the person shared with you, as in Cowork); `~/.brag-document/config.yaml`. Relative paths inside a config resolve from the config file's folder. If there is no config, run first-time setup: [references/setup.md](references/setup.md).
+2. Where the home folder does not persist but a shared folder does (Cowork, a VM with a mounted folder), keep everything in that folder: setup.md, "Shared-folder layout". You can usually tell from your environment (the app says you only have access to a selected folder); when unsure, ask once where the log should live. With no persistent files at all (claude.ai chat, an ephemeral sandbox), say so in one line, ask for the period, work from connectors and pasted text, and return finished entries as Markdown for the person to save.
+3. Pick the mode from the table. For a general request ("update my brag doc", or just "brag doc"): if `last_check_in` is empty or 7 or more days ago, start the weekly check-in; otherwise ask in one line whether they want to log a single win, edit, or something else.
 
 | The person wants to | Mode file |
 |---|---|

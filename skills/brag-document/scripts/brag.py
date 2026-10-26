@@ -418,7 +418,7 @@ def main():
     args = parser.parse_args()
     bundle = os.path.expanduser(args.bundle)
     if not os.path.isdir(bundle):
-        print("bundle folder not found: %s (check bundle_path in ~/.brag-document/config.yaml)" % bundle)
+        print("bundle folder not found: %s (check bundle_path in your config: ~/.brag-document/config.yaml or brag-config.yaml)" % bundle)
         return 2
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
