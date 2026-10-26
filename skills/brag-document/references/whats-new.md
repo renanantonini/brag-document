@@ -4,7 +4,7 @@ What changed for the person in each version, in plain words, newest first. Read 
 
 The heading of the next version stays `Unreleased` until a release gives it a number.
 
-## Unreleased
+## 0.2.2
 
 - The interactive page opens in your browser by itself when it is ready. Before, an app's side panel could show it blank.
 - After an update, the skill tells you in a line or two what is new, like this.
