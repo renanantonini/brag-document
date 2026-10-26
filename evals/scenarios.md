@@ -55,7 +55,12 @@ Done looks like: covers 2026-04-21..2026-10-21, mentions the one draft and offer
 Prompt: after the period summary, the user answers `sim` to the interactive view and says it is only for them
 Should trigger: yes
 First file Claude should open: references/period-summary.md
-Done looks like: runs `brag.py viz` with the period and `--lang pt-BR`, no `--redact`; gives the path under `views/`; says the page is local and makes no network requests.
+Done looks like: runs `brag.py viz` with the period, `--lang pt-BR` and `--open`, no `--redact`; gives the path under `views/`; says the page opened in the browser (or, when the script could not open one, how to open it and that a side panel may show it blank); says the page is local and makes no network requests.
+
+### Update announced once
+Prompt: `brag doc` with the fixture config's `skill_version` set to `0.2.0`
+Should trigger: yes
+Done looks like: before anything else, one or two lines in pt-BR on what is new since 0.2.0, taken from references/whats-new.md; `skill_version` in the config now equals the skill's `metadata.version`; running `brag doc` again announces nothing.
 
 ### Markdown view
 Prompt: after the period summary, the user answers `prefiro em markdown` to the view offer

@@ -36,7 +36,7 @@ A folder in [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-
 
 ## Install
 
-- **Claude Code plugin:** `/plugin marketplace add renanantonini/brag-document`, then `/plugin install brag-document@brag-document`.
+- **Claude Code plugin:** `/plugin marketplace add renanantonini/brag-document`, then `/plugin install brag-document@brag-document`. Then turn on updates: run `/plugin`, open the marketplaces list, choose `brag-document` and enable auto-update. Marketplaces outside Anthropic's come with auto-update off, so without this step you keep the version you installed.
 - **skills CLI:** `npx skills add renanantonini/brag-document`.
 - **Manual:** copy `skills/brag-document/` into your skills folder (`~/.claude/skills/` for Claude Code).
 
@@ -44,10 +44,23 @@ Then say "let's start my brag document" or run `/brag-document`. First-time setu
 
 The helper script needs Python 3.8+ (standard library only). Local folders and git need an agent with file access (Claude Code, for example). On claude.ai the skill works with connectors and pasted text only.
 
+## Updating
+
+After an update, the skill tells you in a line or two what is new the next time you use it.
+
+- **Claude Code plugin with auto-update on:** nothing to do.
+- **Claude Code plugin with auto-update off:** run `claude plugin marketplace update brag-document`, or turn auto-update on as above.
+- **skills CLI:** run `npx skills add renanantonini/brag-document` again.
+- **Manual copy, or a skill uploaded as a zip (claude.ai, Cowork):** copy or upload the new `skills/brag-document/` again. A manual copy never updates by itself.
+
+Your log and your config are not touched by an update.
+
 ## Development
 
 - `evals/` holds the test scenarios and a fictional bundle with sample source data.
-- [CHANGELOG.md](CHANGELOG.md) lists what changed in each version.
+- [CHANGELOG.md](CHANGELOG.md) lists what changed in each version, for developers. [whats-new.md](skills/brag-document/references/whats-new.md) says the same in plain words for users; the skill reads it to announce an update.
+- To release: set the same version in `.claude-plugin/plugin.json` and in `metadata.version` of `skills/brag-document/SKILL.md`, and rename `Unreleased` to that version in both CHANGELOG.md and whats-new.md. Without a new `version`, plugin users do not receive the change.
+
 ## License
 
 MIT

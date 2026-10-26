@@ -3,7 +3,8 @@
 # Machine-specific settings only; the bundle itself stays portable.
 
 version: 1
-language: pt-BR                  # conversation and entries
+skill_version: null              # skill version last seen; set by the skill, used to announce what's new
+language: pt-BR                 # conversation and entries
 user_level: beginner             # beginner = short usage tips; experienced = none
 bundle_path: ~/brag-document     # the OKF bundle folder
 last_check_in: null              # YYYY-MM-DD, set when a weekly check-in ends

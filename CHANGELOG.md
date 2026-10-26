@@ -4,6 +4,12 @@ All notable changes to this skill are listed here. The format follows [Keep a Ch
 
 ## [Unreleased]
 
+### Added
+
+- **The interactive page opens by itself.** `brag.py viz --open` opens the page in the default browser, and the period summary uses it on the person's own computer. An app's side panel shows files without running their script, so the page looked blank there and read as broken. Where no browser can open (a VM, Cowork), the skill gives the path and says the side panel may show the page blank.
+- **Update notice.** The config keeps `skill_version`. When the installed skill is newer, the next run tells the person in a line or two what is new, from the new `references/whats-new.md`, written in plain words for users. Setup fills `skill_version`, so new users are not told about past updates.
+- **README: Updating.** How each install method gets new versions, with auto-update turned on as part of the plugin install, and a release checklist for keeping `plugin.json` and `SKILL.md` versions in step.
+
 ### Fixed
 
 - **"X of Y" captions in the interactive view.** A highlight such as "0 de 11" keeps the whole sentence as its caption ("fase 3 com 0 de 11 itens entregues"), instead of cutting the count out and leaving "fase 3 com itens entregues".

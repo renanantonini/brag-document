@@ -1,6 +1,6 @@
 # Setup and settings
 
-First-time setup is a short conversation, about 5 minutes, one question per message. Start the config (`~/.brag-document/config.yaml`, or `brag-config.yaml` in the shared-folder layout below) from `assets/config.example.yaml` with every sample value reset (`name: null`, `emails: []`, `handles: {}`, `repos: []`, `tool: null`, `remote_cli: none`, `tags: []`, `timezone` set to the system timezone as an IANA name such as `America/Sao_Paulo`) and every source `enabled: false`, then save after each answer, so a setup stopped midway resumes where it left off. Changing a setting later is the same conversation, limited to that setting.
+First-time setup is a short conversation, about 5 minutes, one question per message. Start the config (`~/.brag-document/config.yaml`, or `brag-config.yaml` in the shared-folder layout below) from `assets/config.example.yaml` with every sample value reset (`name: null`, `emails: []`, `handles: {}`, `repos: []`, `tool: null`, `remote_cli: none`, `tags: []`, `skill_version` set to this skill's `metadata.version` so a new user is not told about past updates, `timezone` set to the system timezone as an IANA name such as `America/Sao_Paulo`) and every source `enabled: false`, then save after each answer, so a setup stopped midway resumes where it left off. Changing a setting later is the same conversation, limited to that setting.
 
 Run discovery (source-recipes.md, "Discovery") silently before the first message, so every later step can propose what was found instead of asking.
 

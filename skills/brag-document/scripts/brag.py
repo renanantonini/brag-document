@@ -5,7 +5,7 @@ Usage:
   brag.py validate <bundle>
   brag.py log <bundle>
   brag.py list <bundle> [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--status draft|stable] [--tag TAG]
-  brag.py viz <bundle> [--from ...] [--to ...] [--lang pt-BR] [--redact "Name,Name"] [--format html|md] [--out FILE]
+  brag.py viz <bundle> [--from ...] [--to ...] [--lang pt-BR] [--redact "Name,Name"] [--format html|md] [--out FILE] [--open]
 
 The frontmatter parser covers the subset of YAML that references/entry-format.md
 prescribes (scalars, flow lists, block lists of scalars or of flat mappings),
@@ -15,8 +15,10 @@ import argparse
 import datetime
 import json
 import os
+import pathlib
 import re
 import sys
+import webbrowser
 
 RESERVED = {"index.md", "log.md"}
 SKIP_DIRS = {".obsidian", ".git", ".trash"}
@@ -375,7 +377,15 @@ def render_markdown(data):
     return "\n".join(out) + "\n"
 
 
-def cmd_viz(bundle, start, end, lang, names, out, fmt="html"):
+def open_in_browser(path):
+    """Open a written view in the default browser; False where there is none (a VM, a sandbox, Cowork)."""
+    try:
+        return bool(webbrowser.open(pathlib.Path(path).resolve().as_uri()))
+    except Exception:
+        return False
+
+
+def cmd_viz(bundle, start, end, lang, names, out, fmt="html", open_view=False):
     if fmt == "html" and not os.path.isfile(TEMPLATE):
         print("template not found: %s" % TEMPLATE)
         return 2
@@ -416,6 +426,11 @@ def cmd_viz(bundle, start, end, lang, names, out, fmt="html"):
     with open(out, "w", encoding="utf-8", newline="\n") as f:
         f.write(content)
     print("view written: %s (%d entries)" % (os.path.abspath(out), len(entries)))
+    if open_view:
+        if open_in_browser(out):
+            print("opened in the default browser")
+        else:
+            print("no browser could be opened here; open the file by hand")
     return 0
 
 
@@ -437,6 +452,8 @@ def main():
             p.add_argument("--format", choices=["html", "md"], default="html",
                            help="html = interactive page, md = simple Markdown")
             p.add_argument("--out", help="output file (default: <bundle>/views/brag-<from>_<to>.<format>)")
+            p.add_argument("--open", dest="open_view", action="store_true",
+                           help="open the written view in the default browser")
     args = parser.parse_args()
     bundle = os.path.expanduser(args.bundle)
     if not os.path.isdir(bundle):
@@ -450,7 +467,7 @@ def main():
         return cmd_log(bundle)
     if args.cmd == "viz":
         names = [n.strip() for n in args.redact.split(",") if n.strip()]
-        return cmd_viz(bundle, args.start, args.end, args.lang, names, args.out, args.format)
+        return cmd_viz(bundle, args.start, args.end, args.lang, names, args.out, args.format, args.open_view)
     return cmd_list(bundle, args.start, args.end, args.status, args.tag)
 
 
